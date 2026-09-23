@@ -1,0 +1,2 @@
+GET /tasks?fields=id,title
+{"items":[{"id":1,"title":"Design"}]}

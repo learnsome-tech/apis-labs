@@ -1,0 +1,17 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "title": "Design",
+            "state": "open",
+            "owner": "alice"
+        },
+        {
+            "id": 2,
+            "title": "Build",
+            "state": "open",
+            "owner": "bob"
+        }
+    ],
+    "next": "/tasks?after=2&limit=2"
+}

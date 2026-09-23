@@ -1,0 +1,6 @@
+PUT /tasks/3/completion
+HTTP/1.1 204 No Content
+
+POST /jobs
+HTTP/1.1 202 Accepted
+Location: /jobs/1

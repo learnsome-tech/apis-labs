@@ -1,0 +1,2 @@
+GET /tasks?limit=2&offset=4
+{"items": [...], "next": "..."}

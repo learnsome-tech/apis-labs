@@ -1,0 +1,3 @@
+Accept: application/json        the caller: what I can read
+Content-Type: application/json  either side: what this body is
+Vary: Accept                    the server: my answer depended on Accept

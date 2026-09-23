@@ -1,0 +1,19 @@
+# Modern API Architecture: REST, GraphQL & gRPC — lesson m01l01 — What An API Is, And The Alternatives
+# https://learnsome.tech/courses/apis-course/watch?lesson=m01l01
+# © LearnSome.tech
+openapi: 3.1.0
+info:
+  title: Course Tasks API
+  version: 1.2.0
+  description: A small task service used by every lesson in this course.
+servers:
+  - url: http://127.0.0.1:8765
+    description: Loopback only. Seeded from seeds.json on every start.
+paths:
+  /health:
+    get:
+      operationId: health
+      summary: Liveness probe
+      responses:
+        '200':
+          description: The service is up

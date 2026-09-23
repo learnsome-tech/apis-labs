@@ -1,0 +1,16 @@
+HTTP/1.1 405 Method Not Allowed
+Content-Type: application/problem+json
+Cache-Control: no-store
+Allow: GET, HEAD, POST, OPTIONS
+Content-Length: 64
+{"type":"about:blank","title":"Method Not Allowed","status":405}
+HTTP/1.1 415 Unsupported Media Type
+Content-Type: application/problem+json
+Cache-Control: no-store
+Content-Length: 101
+{"type":"about:blank","title":"Unsupported Media Type","status":415,"detail":"Send application/json"}
+HTTP/1.1 422 Unprocessable Content
+Content-Type: application/problem+json
+Cache-Control: no-store
+Content-Length: 126
+{"type":"about:blank","title":"Unprocessable Content","status":422,"detail":"Supply only a title of one to eighty characters"}

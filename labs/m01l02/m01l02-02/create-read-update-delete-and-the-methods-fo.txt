@@ -1,0 +1,6 @@
+POST   /tasks          create
+GET    /tasks          read a page
+GET    /tasks/1        read one
+PATCH  /tasks/1        update some fields
+PUT    /tasks/1        replace the whole thing
+DELETE /tasks/1        delete

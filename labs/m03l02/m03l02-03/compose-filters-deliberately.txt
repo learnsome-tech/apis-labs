@@ -1,0 +1,2 @@
+GET /tasks?state=open&owner=alice
+GET /tasks?q=design&limit=2

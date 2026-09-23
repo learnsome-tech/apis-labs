@@ -1,0 +1,4 @@
+/tasks/1            the path identifies a resource
+/tasks?state=open   the query filters a collection
+/tasks?limit=2      the query shapes a representation
+/tasks/1/owner      a path segment is a relationship, not a verb

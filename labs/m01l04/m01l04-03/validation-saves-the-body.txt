@@ -1,0 +1,4 @@
+ETag: "1"
+If-None-Match: "1"
+
+HTTP/1.1 304 Not Modified
