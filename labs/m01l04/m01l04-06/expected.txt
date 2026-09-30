@@ -1,6 +1,0 @@
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: private, max-age=0
-Link: </tasks/1/owner>; rel="author"
-Content-Length: 56
-{"id":1,"title":"Design","state":"open","owner":"alice"}

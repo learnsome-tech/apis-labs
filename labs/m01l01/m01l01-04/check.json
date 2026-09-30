@@ -1,0 +1,21 @@
+{
+  "lab": "m01l01-04",
+  "lesson": "m01l01",
+  "title": "A resource, as data",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -s localhost:8765/tasks?limit=2 | python3 -m json.tool",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl",
+    "python3"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

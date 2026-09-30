@@ -1,0 +1,20 @@
+{
+  "lab": "m01l03-07",
+  "lesson": "m01l03",
+  "title": "The same two headers, both directions",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -sI localhost:8765/tasks; curl -si localhost:8765/tasks?limit=9",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

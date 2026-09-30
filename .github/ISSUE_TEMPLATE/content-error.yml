@@ -1,0 +1,23 @@
+name: Something in a lab or lesson is wrong
+description: A mistake in a README, a starter, an expected output or the lesson text.
+labels: ["content error"]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Lab or lesson
+      description: The lab id or the lesson id.
+      placeholder: m01l01
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+      description: Quote the text or code, and say what is wrong with it.
+    validations:
+      required: true
+  - type: textarea
+    id: right
+    attributes:
+      label: What it should say

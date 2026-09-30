@@ -1,0 +1,19 @@
+{
+  "lab": "m01l05-04",
+  "lesson": "m01l05",
+  "title": "The browser asks before posting",
+  "mode": "run",
+  "runner": "python",
+  "command": "python3 preflight.py",
+  "main": "preflight.py",
+  "files": [
+    "preflight.py"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "python3"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

@@ -1,0 +1,132 @@
+{
+  "courseId": "apis-course",
+  "repository": "learnsome-tech/apis-labs",
+  "coursePage": "https://learnsome.tech/courses/apis-course",
+  "exampleLab": "m01l01-02",
+  "limits": {
+    "timeoutSeconds": 10,
+    "outputBytes": 262144
+  },
+  "terraformMirror": "/opt/lab/terraform/cli.tfrc",
+  "kubeconform": {
+    "url": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/8df8a883b68a24a104b4a9e43c1288090ae60b3b/master-standalone-strict",
+    "schemas": [
+      [
+        "3fd79fbc322d89090be016a046630b6a399941547e7fbf7501645ee379e4fccb",
+        "clusterrole-rbac-v1.json"
+      ],
+      [
+        "3f83a2198fe9c178bf742849df9a3fb719fe2f3bb8ef425fee855931dad554cf",
+        "clusterrolebinding-rbac-v1.json"
+      ],
+      [
+        "e2a23fd242fdb514c750d5bc1445f4e80b97b08352f892c856ee1d2a3be17e48",
+        "configmap-v1.json"
+      ],
+      [
+        "e1235a06f6efdcfbded6ed71d9c0116604d8f82bb164eedfce319f7a295ca0fe",
+        "cronjob-batch-v1.json"
+      ],
+      [
+        "d426f572382380100329afc0e7b80d4bbf9568d1a159d66d18cb033195742c80",
+        "daemonset-apps-v1.json"
+      ],
+      [
+        "6700facf023e9f87bf013cb35276d4f5d08735cf85960499984c9abc616e1b96",
+        "deployment-apps-v1.json"
+      ],
+      [
+        "437dbee748189b4c009b94183c64274affd925550a711f45af683db7c997a5b2",
+        "endpoints-v1.json"
+      ],
+      [
+        "932a0ed880648021d4ed951b65d2818980d6ecbf39663daa81951c5b974a38a2",
+        "horizontalpodautoscaler-autoscaling-v2.json"
+      ],
+      [
+        "ec6d9895f768ab9c36836ffe3cb060700d6f2658ee0caec6f3e8dadaef499259",
+        "ingress-networking-v1.json"
+      ],
+      [
+        "1096a47440b798c7e29962fe3c5a8cfb44039b5a1930e5a4767fa42e58e2b76f",
+        "ingressclass-networking-v1.json"
+      ],
+      [
+        "837c0d341a0f6dbe247929bcf697ab6c165fabbaa9bba1601e02fd45d39bcbcb",
+        "job-batch-v1.json"
+      ],
+      [
+        "de299531c8d8be33a096a1659e905b1f3dbe3c0c915e53d07fd81b3d3ef2bf71",
+        "lease-coordination-v1.json"
+      ],
+      [
+        "4cdb87dc695c96225f2f98673a004fbf0724d11a109f20a6aa1cb22e3efd8bbe",
+        "limitrange-v1.json"
+      ],
+      [
+        "7974696e7b5832cdcf9eb63d57dada762fd8a3ece3200b800e352d6dbd58b800",
+        "namespace-v1.json"
+      ],
+      [
+        "f6324cc464f62228b0418f438d167208e4f86c7e3677ba30f608e79a8b26ba79",
+        "networkpolicy-networking-v1.json"
+      ],
+      [
+        "42cf82e6f9966268b3715243ebbb581c0af05c1f73c8bbe44265a3805aec08d4",
+        "persistentvolume-v1.json"
+      ],
+      [
+        "2cdc633c7118dbca74c491b36dff4d2ccf0eda2e673a0347bd606ab0bf7c2d22",
+        "persistentvolumeclaim-v1.json"
+      ],
+      [
+        "52b6e7b3f05e24eca757f80c71c536f8c8ebcd1455ea1401d31ab3267a28ed75",
+        "pod-v1.json"
+      ],
+      [
+        "1000b75282fb736b8ae49e8cc26e6c522e1c80d1e1a0c0d29ea95fac55af0e84",
+        "poddisruptionbudget-policy-v1.json"
+      ],
+      [
+        "614e8878ac82099cccc0c55e90f487c09ced6057954cb1c5189f6cccc5799451",
+        "priorityclass-scheduling-v1.json"
+      ],
+      [
+        "fa3c0b79af452c6075e2611bb84e0d9e00b536607a2aa93d3fa7d544deb19f74",
+        "replicaset-apps-v1.json"
+      ],
+      [
+        "6f407363f085e81beb2ac5836073c3bd255cba020277bf180e96621fc5de0eef",
+        "resourcequota-v1.json"
+      ],
+      [
+        "09e6af32ea82c8ed3ca322261d67de0a776ec79da15635a599e43e63afbec4af",
+        "role-rbac-v1.json"
+      ],
+      [
+        "005bd663d1ffdf7434209ea0808f9101a537f3d1bbba86c7dc97e062927b7fcf",
+        "rolebinding-rbac-v1.json"
+      ],
+      [
+        "137c74a5192f6f024951eb987916b0d6fec5f0252ad368fa10f5e208fde9ab97",
+        "secret-v1.json"
+      ],
+      [
+        "1dd1df2ef6a85b9212889272bc949ce791c444d7c7e906bea716aed6d4dd5a42",
+        "service-v1.json"
+      ],
+      [
+        "769a132bf122ea425f19d9f65945f846ad58bb14ff6a521725503b033e127d1d",
+        "serviceaccount-v1.json"
+      ],
+      [
+        "a9f7ec04ca29066c38dc5ca242dd422461864849a4ba751058ab393d8fd12f51",
+        "statefulset-apps-v1.json"
+      ],
+      [
+        "00fc048122bc8b753ae34bc3b0a84d2464eea386498b280430f88592d40c5c47",
+        "storageclass-storage-v1.json"
+      ]
+    ]
+  }
+}

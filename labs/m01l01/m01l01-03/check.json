@@ -1,0 +1,17 @@
+{
+  "lab": "m01l01-03",
+  "lesson": "m01l01",
+  "title": "The parts of a request and a response",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "the-parts-of-a-request-and-a-response.txt",
+  "files": [
+    "the-parts-of-a-request-and-a-response.txt"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

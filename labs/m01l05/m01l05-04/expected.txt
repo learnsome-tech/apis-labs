@@ -1,4 +1,0 @@
-204
-Access-Control-Allow-Origin: https://course.example
-Access-Control-Allow-Methods: GET, POST
-Access-Control-Max-Age: 600

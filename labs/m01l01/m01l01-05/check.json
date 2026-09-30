@@ -1,0 +1,20 @@
+{
+  "lab": "m01l01-05",
+  "lesson": "m01l01",
+  "title": "The contract, written down first",
+  "mode": "checker",
+  "runner": "yamllint",
+  "command": "yamllint openapi.yaml",
+  "main": "openapi.yaml",
+  "files": [
+    "SOURCE",
+    "openapi.yaml"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "yamllint"
+  ],
+  "note": null
+}

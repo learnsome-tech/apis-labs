@@ -1,0 +1,18 @@
+{
+  "lab": "m01l05-05",
+  "lesson": "m01l05",
+  "title": "The preflight decision",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "app.py",
+  "files": [
+    "SOURCE",
+    "app.py"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

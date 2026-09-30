@@ -1,19 +1,23 @@
-# Partial Responses
+# m03l05 · Partial Responses
 
-**Course**: [Modern API Architecture: REST, GraphQL & gRPC](https://learnsome.tech/courses/apis-course)  
-**Module**: Request And Response Design  
-**Lesson**: `m03l05`
+Module 3: Request And Response Design · lesson 3.5 · Pro · [Open the lesson](https://learnsome.tech/learn/apis-course/m03l05)
 
-## Links
+**Goal:** You can design field selection and sparse representations without making hidden server calls, and keep partial responses safe, cacheable, and understandable.
 
-- [Watch lesson](https://learnsome.tech/courses/apis-course/watch?lesson=m03l05)
-- [Handbook](https://learnsome.tech/courses/apis-course/book#lesson-3-5)
-- [Exercises](EXERCISES.md)
+## Labs
 
-## Artifact directories
+| Lab | What it is | Check |
+| --- | --- | --- |
+| [m03l05-02](m03l05-02/) | Selection changes the representation | Read along |
 
-- [`m03l05-02/`](m03l05-02/)
+## Check yourself
+
+- What is the difference between a resource and a partial representation?
+- Why must a cache vary on fields?
+- How can field selection cause N plus one?
+- When should a field be omitted for permission?
+- What should an empty field choice mean?
 
 ---
 
-© LearnSome.tech · support@iwantto.learnsome.tech
+[Course README](../../README.md) · [Modern API Architecture: REST, GraphQL & gRPC on LearnSome.tech](https://learnsome.tech/courses/apis-course)

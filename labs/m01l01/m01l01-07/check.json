@@ -1,0 +1,20 @@
+{
+  "lab": "m01l01-07",
+  "lesson": "m01l01",
+  "title": "Ask which version you got",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -so /dev/null -w '%{http_version}\\n' localhost:8765/tasks",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

@@ -1,0 +1,17 @@
+{
+  "lab": "m01l04-03",
+  "lesson": "m01l04",
+  "title": "Validation saves the body",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "validation-saves-the-body.txt",
+  "files": [
+    "validation-saves-the-body.txt"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

@@ -1,19 +1,23 @@
-# Filtering And Searching
+# m03l02 · Filtering And Searching
 
-**Course**: [Modern API Architecture: REST, GraphQL & gRPC](https://learnsome.tech/courses/apis-course)  
-**Module**: Request And Response Design  
-**Lesson**: `m03l02`
+Module 3: Request And Response Design · lesson 3.2 · Pro · [Open the lesson](https://learnsome.tech/learn/apis-course/m03l02)
 
-## Links
+**Goal:** You can design filter parameters, distinguish exact filtering from text search, validate unsupported values, and keep filtered pages predictable.
 
-- [Watch lesson](https://learnsome.tech/courses/apis-course/watch?lesson=m03l02)
-- [Handbook](https://learnsome.tech/courses/apis-course/book#lesson-3-2)
-- [Exercises](EXERCISES.md)
+## Labs
 
-## Artifact directories
+| Lab | What it is | Check |
+| --- | --- | --- |
+| [m03l02-03](m03l02-03/) | Compose filters deliberately | Read along |
 
-- [`m03l02-03/`](m03l02-03/)
+## Check yourself
+
+- How is a filter different from search?
+- What should an empty filtered result look like?
+- Why must a next link preserve filters?
+- What input should be rejected before querying?
+- Why should the page shape stay stable?
 
 ---
 
-© LearnSome.tech · support@iwantto.learnsome.tech
+[Course README](../../README.md) · [Modern API Architecture: REST, GraphQL & gRPC on LearnSome.tech](https://learnsome.tech/courses/apis-course)

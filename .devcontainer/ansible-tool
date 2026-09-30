@@ -1,0 +1,14 @@
+#!/bin/sh
+# ansible, ansible-playbook, ansible-inventory... in the lab sandbox (each is a link to this file): the tool
+# of the same name from /opt/pytools, managing this machine with the same Python, keeping its temporary
+# files in the run's scratch space (the learner account has no home directory), without colour or the
+# machine-specific warnings the ansible course sets aside when it compares output.
+ANSIBLE_PYTHON_INTERPRETER="${ANSIBLE_PYTHON_INTERPRETER:-/opt/pytools/bin/python3}"
+ANSIBLE_LOCAL_TEMP="${ANSIBLE_LOCAL_TEMP:-${TMPDIR:-/tmp}/ansible-local}"
+ANSIBLE_REMOTE_TEMP="${ANSIBLE_REMOTE_TEMP:-${TMPDIR:-/tmp}/ansible-remote}"
+ANSIBLE_NOCOLOR="${ANSIBLE_NOCOLOR:-1}"
+ANSIBLE_LOCALHOST_WARNING="${ANSIBLE_LOCALHOST_WARNING:-False}"
+ANSIBLE_DEPRECATION_WARNINGS="${ANSIBLE_DEPRECATION_WARNINGS:-False}"
+export ANSIBLE_PYTHON_INTERPRETER ANSIBLE_LOCAL_TEMP ANSIBLE_REMOTE_TEMP ANSIBLE_NOCOLOR ANSIBLE_LOCALHOST_WARNING \
+  ANSIBLE_DEPRECATION_WARNINGS
+exec "/opt/pytools/bin/$(basename "$0")" "$@"

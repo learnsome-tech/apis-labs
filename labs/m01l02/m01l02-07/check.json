@@ -1,0 +1,22 @@
+{
+  "lab": "m01l02-07",
+  "lesson": "m01l02",
+  "title": "When the status lies",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -si localhost:8765/tasks/999; python3 contract_test.py -k NotFound 2>&1 | tail -3",
+  "main": "run.sh",
+  "files": [
+    "FAULT",
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl",
+    "python3"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

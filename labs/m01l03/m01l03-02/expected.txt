@@ -1,6 +1,0 @@
-HTTP/1.1 200 OK
-Content-Type: application/json
-Vary: Accept
-Cache-Control: private, max-age=0
-Content-Length: 100
-{"items":[{"id":1,"title":"Design","state":"open","owner":"alice"}],"next":"/tasks?after=1&limit=1"}

@@ -1,0 +1,20 @@
+{
+  "lab": "m01l02-03",
+  "lesson": "m01l02",
+  "title": "A create, a read, and a delete",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -si --json '{\"title\":\"Deploy\"}' localhost:8765/tasks; curl -si localhost:8765/tasks/5; curl -siX DELETE localhost:8765/tasks/5; curl -si localhost:8765/tasks/5",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

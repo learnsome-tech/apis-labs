@@ -1,0 +1,17 @@
+{
+  "lab": "m03l01-02",
+  "lesson": "m03l01",
+  "title": "Offset pagination is easy to read",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "offset-pagination-is-easy-to-read.txt",
+  "files": [
+    "offset-pagination-is-easy-to-read.txt"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

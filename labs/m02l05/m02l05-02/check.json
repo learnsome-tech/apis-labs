@@ -1,0 +1,17 @@
+{
+  "lab": "m02l05-02",
+  "lesson": "m02l05",
+  "title": "Links reduce guessed addresses",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "links-reduce-guessed-addresses.txt",
+  "files": [
+    "links-reduce-guessed-addresses.txt"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

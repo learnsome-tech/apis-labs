@@ -1,19 +1,23 @@
-# HATEOAS And Hypermedia
+# m02l05 · HATEOAS And Hypermedia
 
-**Course**: [Modern API Architecture: REST, GraphQL & gRPC](https://learnsome.tech/courses/apis-course)  
-**Module**: REST And Resource Modelling  
-**Lesson**: `m02l05`
+Module 2: REST And Resource Modelling · lesson 2.5 · Pro · [Open the lesson](https://learnsome.tech/learn/apis-course/m02l05)
 
-## Links
+**Goal:** You can use links as part of a representation, explain how hypermedia reduces client coupling, and distinguish a server supplied link from a guessed URI.
 
-- [Watch lesson](https://learnsome.tech/courses/apis-course/watch?lesson=m02l05)
-- [Handbook](https://learnsome.tech/courses/apis-course/book#lesson-2-5)
-- [Exercises](EXERCISES.md)
+## Labs
 
-## Artifact directories
+| Lab | What it is | Check |
+| --- | --- | --- |
+| [m02l05-02](m02l05-02/) | Links reduce guessed addresses | Read along |
 
-- [`m02l05-02/`](m02l05-02/)
+## Check yourself
+
+- What does a relation name add to a link?
+- Why should a client follow a next link exactly?
+- How can state change available links?
+- What coupling does hypermedia reduce?
+- When does a missing next link matter?
 
 ---
 
-© LearnSome.tech · support@iwantto.learnsome.tech
+[Course README](../../README.md) · [Modern API Architecture: REST, GraphQL & gRPC on LearnSome.tech](https://learnsome.tech/courses/apis-course)

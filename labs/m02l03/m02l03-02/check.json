@@ -1,0 +1,17 @@
+{
+  "lab": "m02l03-02",
+  "lesson": "m02l03",
+  "title": "Choose a depth you can explain",
+  "mode": "read-along",
+  "runner": null,
+  "command": null,
+  "main": "choose-a-depth-you-can-explain.txt",
+  "files": [
+    "choose-a-depth-you-can-explain.txt"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [],
+  "note": "It is a listing to read alongside the lesson, not a program to run."
+}

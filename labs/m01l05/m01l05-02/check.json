@@ -1,0 +1,20 @@
+{
+  "lab": "m01l05-02",
+  "lesson": "m01l05",
+  "title": "Credentials in, cookie out",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -si -u alice:demo -X POST localhost:8765/session; curl -si -b session=local-demo localhost:8765/session",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

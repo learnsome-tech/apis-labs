@@ -1,0 +1,20 @@
+{
+  "lab": "m01l04-04",
+  "lesson": "m01l04",
+  "title": "Ask whether it changed",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -si localhost:8765/tasks/1 -H 'If-None-Match: \"1\"'",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

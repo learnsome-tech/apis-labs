@@ -1,0 +1,39 @@
+name: A lab is broken
+description: A lab's starter, ./check or the dev container does not work as its README says.
+labels: ["lab broken"]
+body:
+  - type: input
+    id: lab
+    attributes:
+      label: Lab
+      description: The lab id, from its folder name.
+      placeholder: m01l01-02
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output of ./check
+      description: Paste the output of `./check <lab>`.
+      render: text
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where you ran it
+      options:
+        - Codespaces or the dev container
+        - My own machine
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and tool versions
+      description: Only if you ran it on your own machine.

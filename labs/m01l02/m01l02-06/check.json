@@ -1,0 +1,20 @@
+{
+  "lab": "m01l02-06",
+  "lesson": "m01l02",
+  "title": "Three ways to be wrong, three statuses",
+  "mode": "run",
+  "runner": "recorded",
+  "command": "curl -siX PUT --json '{\"title\":\"x\"}' localhost:8765/tasks; curl -si -d 'title=x' localhost:8765/tasks; curl -si --json '{\"title\":\"\"}' localhost:8765/tasks",
+  "main": "run.sh",
+  "files": [
+    "run.sh"
+  ],
+  "stdin": null,
+  "expected": null,
+  "grading": null,
+  "requires": [
+    "bash",
+    "curl"
+  ],
+  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+}

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem
+    url: https://learnsome.tech/.well-known/security.txt
+    about: Please report vulnerabilities privately (security@learnsome.tech), not as an issue.
+  - name: Help with your LearnSome.tech account
+    url: https://learnsome.tech/support
+    about: Account, membership and billing questions.
