@@ -40,6 +40,22 @@ for t in ansible ansible-playbook ansible-inventory ansible-config ansible-doc a
 done
 ln -sf /opt/pytools/bin/yamllint /usr/local/bin/yamllint
 
+# OpenSSL 3.5 and curl 8 in their own prefixes, built as the sandbox builds them; ./check puts them first on
+# PATH only for the labs that use them. Not needed in CI, which runs no lab programs.
+if [ "$mode" != ci ]; then
+  apt-get -o Acquire::Retries=5 update -q
+  apt-get install -y -q --no-install-recommends build-essential perl xz-utils
+  rm -rf /var/lib/apt/lists/*
+  fetch 'https://github.com/openssl/openssl/releases/download/openssl-3.5.9/openssl-3.5.9.tar.gz' "$tmp/openssl.tgz" 603f5602e2eef00d77fbd429d34dcd5822bb301757a1bc9cdb24c670f1eb859a
+  fetch 'https://curl.se/download/curl-8.22.0.tar.xz' "$tmp/curl.txz" f7ef3ae8a22e521f289803fe93543eb64c329b58aa73a9e224dfd915a2a5f4f7
+  mkdir "$tmp/openssl" "$tmp/curl"
+  tar -xzf "$tmp/openssl.tgz" -C "$tmp/openssl" --strip-components=1
+  tar -xJf "$tmp/curl.txz" -C "$tmp/curl" --strip-components=1
+  (cd "$tmp/openssl" && ./Configure --prefix=/opt/openssl-3.5 --openssldir=/opt/openssl-3.5/ssl --libdir=lib shared no-docs no-tests '-Wl,-rpath,/opt/openssl-3.5/lib' >/dev/null && make -j"$(nproc)" >/dev/null && make install_sw install_ssldirs >/dev/null)
+  (cd "$tmp/curl" && ./configure --prefix=/opt/curl-8 --with-openssl=/opt/openssl-3.5 --disable-static --disable-ldap --disable-ldaps --disable-manual --disable-docs --without-libpsl --without-brotli --without-zstd --without-nghttp2 --without-libidn2 --without-zlib LDFLAGS='-Wl,-rpath,/opt/openssl-3.5/lib -Wl,-rpath,/opt/curl-8/lib' >/dev/null && make -j"$(nproc)" >/dev/null && make install >/dev/null)
+  /opt/openssl-3.5/bin/openssl version
+fi
+
 # The toolchains also under /opt/lab/bin, the sandbox's own PATH entry
 mkdir -p /opt/lab/bin
 ln -sf /opt/python/bin/python3.14 /opt/lab/bin/python3

@@ -128,5 +128,39 @@
         "storageclass-storage-v1.json"
       ]
     ]
+  },
+  "toolchains": {
+    "curl-8": "/opt/curl-8/bin"
+  },
+  "serviceScript": "port=$1 patch=$2 n=$3; shift 3\nstart=(\"${@:1:$n}\"); shift \"$n\"\nlog=\"$TMPDIR/.service.log\"\nif [ -n \"$patch\" ] && ! patch -p1 -s -i \"$patch\" >\"$log\" 2>&1; then\n  cat \"$log\" >&2; echo \"run_lab: the lab's fault ($patch) did not apply\" >&2; exit 1\nfi\n\"${start[@]}\" </dev/null >\"$log\" 2>&1 &\nservice=$!\nready=\nfor _ in $(seq 100); do\n  if (exec 3<>\"/dev/tcp/127.0.0.1/$port\") 2>/dev/null; then ready=1; break; fi\n  kill -0 \"$service\" 2>/dev/null || break\n  sleep 0.05\ndone\nif [ -z \"$ready\" ]; then\n  cat \"$log\" >&2; echo \"run_lab: the lab's service (${start[*]}) did not start on port $port\" >&2\n  kill \"$service\" 2>/dev/null; exit 1\nfi\n\"$@\"\ncode=$?\nkill \"$service\" 2>/dev/null; wait \"$service\" 2>/dev/null\nexit \"$code\"\n",
+  "toolCommands": {
+    "terraform": [
+      "init",
+      "validate",
+      "plan",
+      "apply",
+      "fmt",
+      "output"
+    ],
+    "ansible": [
+      "syntax-check",
+      "list-tasks",
+      "list-hosts"
+    ],
+    "kubeconform": [
+      "validate",
+      "verbose"
+    ],
+    "hadolint": [
+      "lint",
+      "strict"
+    ],
+    "yamllint": [
+      "lint",
+      "strict"
+    ],
+    "actionlint": [
+      "lint"
+    ]
   }
 }

@@ -8,12 +8,12 @@ Module 1: What An API Is And HTTP For Real · lesson 1.3 · Free · [Open the le
 
 | Lab | What it is | Check |
 | --- | --- | --- |
-| [m01l03-02](m01l03-02/) | Read a real set of response headers | Runs, not graded |
+| [m01l03-02](m01l03-02/) | Read a real set of response headers | Graded |
 | [m01l03-03](m01l03-03/) | Content negotiation, in two headers | Read along |
-| [m01l03-04](m01l03-04/) | Ask for something it cannot make | Runs, not graded |
+| [m01l03-04](m01l03-04/) | Ask for something it cannot make | Graded |
 | [m01l03-05](m01l03-05/) | The negotiation, in the service | Read along |
 | [m01l03-06](m01l03-06/) | Path or query string? | Read along |
-| [m01l03-07](m01l03-07/) | The same two headers, both directions | Runs, not graded |
+| [m01l03-07](m01l03-07/) | The same two headers, both directions | Graded |
 
 ## Check yourself
 

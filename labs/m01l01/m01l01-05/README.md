@@ -26,6 +26,9 @@ In the lesson: This file is the contract, and in this repository it is the sourc
    - Line 15: quoted, because a bare 200 in YAML would be a number, not a key
 4. Edit `openapi.yaml` and check it: `yamllint openapi.yaml`.
 5. Check it from the repository root: `./check m01l01-05`.
+6. The site offers these commands for this lab; the first is the default, and the only one graded. Run another with `./check m01l01-05 --command=<id>`:
+   - `lint` (Lint): `yamllint -d relaxed openapi.yaml`
+   - `strict` (Lint strictly): `yamllint openapi.yaml`
 
 ## How to check
 

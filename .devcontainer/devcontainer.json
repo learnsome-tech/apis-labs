@@ -4,6 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
+  "updateRemoteUserUID": false,
   "customizations": {
     "codespaces": {
       "openFiles": [

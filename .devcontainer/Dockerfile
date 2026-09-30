@@ -4,4 +4,6 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04@sha256:81380e4c9c14e8a629ff39029639e4b7893e67400246fa7782a0fe7dc193a02a
 COPY . /tmp/learnsome/
 RUN sh /tmp/learnsome/install-tools.sh && rm -rf /tmp/learnsome
+# The sandbox runs lab programs as uid/gid 10001, and some lessons print it: the dev container's user has the same ids.
+RUN groupmod -g 10001 vscode && usermod -u 10001 -g 10001 vscode && chown -R vscode:vscode /home/vscode
 ENV PATH=/opt/lab/bin:$PATH

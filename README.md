@@ -19,7 +19,7 @@ This repository holds the labs of the LearnSome.tech course [Modern API Architec
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/learnsome-tech/apis-labs?quickstart=1)
 
-- **Codespaces:** the badge opens this repository in a dev container with Python 3.14.7 and ansible-core and yamllint, as in the site's lab sandbox.
+- **Codespaces:** the badge opens this repository in a dev container with Python 3.14.7, ansible-core and yamllint and curl 8, as in the site's lab sandbox.
 - **On your machine:**
 
   ```sh
@@ -28,7 +28,7 @@ This repository holds the labs of the LearnSome.tech course [Modern API Architec
   ./check m01l01-02
   ```
 
-  You need Python 3 for `./check`, and for the labs themselves Python 3.14.7 and ansible-core and yamllint. Other versions mostly work, but only the sandbox's versions are sure to print what the site prints. VS Code's Dev Containers extension builds the same container as Codespaces (x86-64).
+  You need Python 3 for `./check`, and for the labs themselves Python 3.14.7, ansible-core and yamllint and curl 8. Other versions mostly work, but only the sandbox's versions are sure to print what the site prints. VS Code's Dev Containers extension builds the same container as Codespaces (x86-64).
 
 ## Doing a lab
 
@@ -40,8 +40,8 @@ This repository holds the labs of the LearnSome.tech course [Modern API Architec
 
 | Check | What `./check` does | Labs |
 | --- | --- | --- |
+| Graded | Runs the program and compares its output with `expected.txt`. | 16 |
 | Checker | Validates the file with the checker the site uses (hadolint, kubeconform, actionlint, yamllint, `ansible-playbook --syntax-check` or `terraform validate`); passes when it finds no errors. | 1 |
-| Runs, not graded | Runs the program and shows its output; the site gives no pass or fail, and the lab README says why. | 16 |
 | Read along | Nothing to run here: the site shows the listing read-only, and the lab README says honestly what it needs (Docker, a cluster, a cloud account...). | 19 |
 
 ## What is published, and what is not

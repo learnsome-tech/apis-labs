@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 15
+{"status":"ok"}
+HTTP/1.1 404 Not Found
+Content-Type: application/problem+json
+Cache-Control: no-store
+Content-Length: 93
+{"type":"about:blank","title":"Not Found","status":404,"detail":"No route matches that path"}

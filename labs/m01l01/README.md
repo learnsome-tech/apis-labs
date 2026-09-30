@@ -8,11 +8,11 @@ Module 1: What An API Is And HTTP For Real · lesson 1.1 · Free · [Open the le
 
 | Lab | What it is | Check |
 | --- | --- | --- |
-| [m01l01-02](m01l01-02/) | The smallest exchange there is | Runs, not graded |
+| [m01l01-02](m01l01-02/) | The smallest exchange there is | Graded |
 | [m01l01-03](m01l01-03/) | The parts of a request and a response | Read along |
-| [m01l01-04](m01l01-04/) | A resource, as data | Runs, not graded |
+| [m01l01-04](m01l01-04/) | A resource, as data | Graded |
 | [m01l01-05](m01l01-05/) | The contract, written down first | Checker |
-| [m01l01-07](m01l01-07/) | Ask which version you got | Runs, not graded |
+| [m01l01-07](m01l01-07/) | Ask which version you got | Graded |
 
 ## Check yourself
 

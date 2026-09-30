@@ -88,7 +88,12 @@ def which(tool):
 
 
 def missing_tools(lab):
-    return [t for t in lab.get('requires', []) if not which(t)]
+    missing = [t for t in lab.get('requires', []) if not which(t)]
+    for name in lab.get('toolchain') or []:
+        prefix = COURSE.get('toolchains', {}).get(name)
+        if not prefix or not os.path.isdir(prefix):
+            missing.append(f'{name} (in {prefix})')
+    return missing
 
 
 _go_cache = None
@@ -152,6 +157,57 @@ def terraform_env():
     return env
 
 
+RECORDED_COMMAND = 'recorded'
+STEP_COMMAND = re.compile(r'^step-([1-9]|1[0-2])$')
+TERRAFORM_INIT_QUIETLY = 'out=$(terraform init -input=false -no-color 2>&1) || { printf "%s\\n" "$out"; exit 1; }; '
+
+
+def tool_argv(tool, command, f):
+    """A CLI-tool lab's prepared command (run_lab.py TOOL_COMMANDS): fixed arguments on the lab's files."""
+    kube = lambda *extra: ['kubeconform', '-strict', '-summary', '-output', 'text', '-ignore-missing-schemas',
+                           '-schema-location', kube_schemas() + '/{{.ResourceKind}}{{.KindSuffix}}.json', *extra, f]
+    table = {
+        'terraform': {
+            'init': lambda: (['terraform', 'init', '-input=false', '-no-color'], terraform_env()),
+            'validate': lambda: (['sh', '-c', TERRAFORM_VALIDATE], terraform_env()),
+            'plan': lambda: (['sh', '-c', TERRAFORM_INIT_QUIETLY + 'exec terraform plan -input=false -no-color'], terraform_env()),
+            'apply': lambda: (['sh', '-c', TERRAFORM_INIT_QUIETLY + 'exec terraform apply -input=false -auto-approve -no-color'], terraform_env()),
+            'fmt': lambda: (['terraform', 'fmt', '-check', '-diff', '-no-color'], terraform_env()),
+            'output': lambda: (['sh', '-c', TERRAFORM_INIT_QUIETLY + 'terraform apply -input=false -auto-approve -no-color >/dev/null && exec terraform output -no-color'], terraform_env()),
+        },
+        'ansible': {
+            'syntax-check': lambda: (['ansible-playbook', '--syntax-check', '-i', 'localhost,', '-c', 'local', f], dict(ANSIBLE_ENV)),
+            'list-tasks': lambda: (['ansible-playbook', '--list-tasks', '-i', 'localhost,', '-c', 'local', f], dict(ANSIBLE_ENV)),
+            'list-hosts': lambda: (['ansible-playbook', '--list-hosts', '-i', 'localhost,', '-c', 'local', f], dict(ANSIBLE_ENV)),
+        },
+        'kubeconform': {'validate': lambda: (kube(), {}), 'verbose': lambda: (kube('-verbose'), {})},
+        'hadolint': {
+            'lint': lambda: (['hadolint', '--no-color', '--failure-threshold', 'error', f], {}),
+            'strict': lambda: (['hadolint', '--no-color', '--failure-threshold', 'info', f], {}),
+        },
+        'yamllint': {
+            'lint': lambda: (['yamllint', '-d', 'relaxed', '-f', 'standard', f], {}),
+            'strict': lambda: (['yamllint', '-f', 'standard', f], {}),
+        },
+        'actionlint': {'lint': lambda: (['actionlint', '-no-color', '-shellcheck=', '-pyflakes=', f], {})},
+    }
+    return table[tool][command]()
+
+
+# The prepared commands' ids per tool, as the site lists them (TOOL_COMMANDS in its lab service).
+TOOL_IDS = COURSE.get('toolCommands', {})
+
+
+def step_lines(text):
+    """The command lines of a recorded script or session, as the site counts them (run_lab.py step_lines)."""
+    lines = [line.strip() for line in text.split('\n')]
+    return [line for line in lines if line and not line.startswith('#') and not re.match(r'^set\s+-', line)]
+
+
+def command_ids(lab):
+    return [c['id'] for c in lab.get('commands') or []]
+
+
 def command_for(lab, home, tmp):
     """argv, whether the program goes to stdin, and extra environment: run_lab.py's command_for()."""
     f = lab['main']
@@ -160,6 +216,8 @@ def command_for(lab, home, tmp):
         'python': ['python3', f],
         'python-repl': ['python3', os.path.join(ROOT, '.learnsome', 'repl_session.py'), f],
         'bash': ['bash', f],
+        'bash-syntax': ['bash', '-n', f],
+        'py-compile': ['python3', '-m', 'py_compile', f],
         'node': ['node', f],
         'node-ts': [*NODE_TS, f],
         'tsx': ['tsx', f],
@@ -355,7 +413,7 @@ def run_capped(argv, cwd, env, stdin_bytes, merge=False):
     }
 
 
-def execute(lab):
+def execute(lab, command=None):
     """Copies the lab's files into a scratch directory, runs it and returns run_lab.py's result shape."""
     base = os.path.realpath(tempfile.mkdtemp(prefix='learnsome-lab-'))
     home = os.path.join(base, 'work')  # the program's directory, named as on the site
@@ -376,7 +434,19 @@ def execute(lab):
         if lab['runner'] == 'tsx' and not os.path.lexists(os.path.join(home, 'package.json')):
             with open(os.path.join(base, 'package.json'), 'w') as f:
                 f.write('{"type": "module"}\n')
-        argv, code_on_stdin, extra_env = command_for(lab, home, tmp)
+        # The lab's own runner (its recorded command or session), a step of it, or a prepared tool command, as
+        # the site runs the lab's allowlisted `commands`: nothing else runs.
+        step = STEP_COMMAND.match(command) if command else None
+        if command in (None, RECORDED_COMMAND):
+            argv, code_on_stdin, extra_env = command_for(lab, home, tmp)
+        elif step:
+            script = next((n for n in ('run.sh', 'command.txt') if lab['runner'] == 'recorded' and os.path.isfile(os.path.join(home, n))), lab['main'])
+            with open(os.path.join(home, script), encoding='utf-8', errors='replace') as f:
+                lines = step_lines(f.read())
+            argv, code_on_stdin, extra_env = ['bash', '-c', lines[int(step.group(1)) - 1]], False, {}
+        else:
+            argv, extra_env = tool_argv(lab['tool'], command, lab['main'])
+            code_on_stdin = False
         if code_on_stdin:
             stdin_path = os.path.join(home, lab['main'])
         elif lab.get('stdin'):
@@ -387,7 +457,19 @@ def execute(lab):
         if stdin_path:
             with open(stdin_path, 'rb') as f:
                 stdin_bytes = f.read()
-        env = {'LANG': 'C.UTF-8', 'TZ': 'UTC', 'HOME': home, 'PATH': SEARCH_PATH, 'TMPDIR': tmp, **extra_env}
+        env = {'LANG': 'C.UTF-8', 'TZ': 'UTC', 'HOME': home, 'PATH': SEARCH_PATH, 'TMPDIR': tmp,
+               'XDG_CACHE_HOME': os.path.join(tmp, '.cache'), **extra_env}
+        # Newer toolchains first on PATH, for the labs that name them (as on the site).
+        prefixes = [COURSE.get('toolchains', {}).get(t) for t in lab.get('toolchain') or []]
+        if prefixes:
+            env['PATH'] = os.pathsep.join([p for p in prefixes if p] + [env['PATH']])
+        service = lab.get('service') if command in (None, RECORDED_COMMAND) else None  # the recorded command's only
+        if service:
+            # The course's local service, started beside the program as the site starts it: the lab's fault
+            # applied first, then the service, then (once its port answers) the program; stopped at the end.
+            argv = ['bash', '-c', COURSE['serviceScript'], 'lab-service', str(service['port']), service.get('patch') or '',
+                    str(len(service['start'])), *service['start'], *argv]
+            env.update(service.get('env') or {})
         for key in PASS_THROUGH:
             if os.environ.get(key) and key not in env:
                 env[key] = os.environ[key]
@@ -435,7 +517,7 @@ def show_output(result):
         print(f'    | {line}')
 
 
-def check_lab(lab, verbose):
+def check_lab(lab, verbose, command=None):
     """Runs one lab: 'pass', 'fail', 'ran', 'skip' or 'notool'."""
     label = f"{lab['lab']}  {lab['title']}"
     if lab['mode'] == 'read-along':
@@ -445,7 +527,18 @@ def check_lab(lab, verbose):
     if missing:
         print(f"{STATUS['NO TOOL']}  {label}\n    needs {', '.join(missing)} on your PATH (the dev container has them)")
         return 'notool'
-    result = execute(lab)
+    if command is not None and command not in command_ids(lab):
+        ids = ', '.join(command_ids(lab)) or 'none: this lab runs its own file'
+        print(f"{STATUS['FAIL']}  {label}\n    no command {command} (this lab's commands: {ids})")
+        return 'fail'
+    # Only a lab's default command (the first) is graded, as on the site.
+    other = command is not None and command != (command_ids(lab) or [None])[0]
+    result = execute(lab, command)
+    if other:
+        line = next(c['line'] for c in lab['commands'] if c['id'] == command)
+        print(f"{STATUS['RAN']}  {label}\n    {line}: exit {result['exitCode']}; not graded (only the lab's default command is)")
+        show_output(result)
+        return 'ran'
     limits = [x for x in (result['timedOut'] and f'stopped after {TIMEOUT_S} s',
                           result['truncated'] and 'output over the size limit') if x]
     limit_note = f" ({', '.join(limits)})" if limits else ''
@@ -546,6 +639,12 @@ def lint_structure(problems):
                 problems.append(f'{where}/starter/{name}: not listed in check.json')
         if lab.get('stdin') and lab['stdin'] not in files:
             problems.append(f"{where}/check.json: stdin file {lab['stdin']} is not a starter file")
+        ids = [c.get('id') for c in lab.get('commands') or []]
+        if len(ids) != len(set(ids)) or any(not isinstance(i, str) for i in ids):
+            problems.append(f'{where}/check.json: commands must have distinct ids')
+        for i in ids:
+            if isinstance(i, str) and i not in (RECORDED_COMMAND,) and not STEP_COMMAND.match(i) and i not in TOOL_IDS.get(lab.get('tool'), ()):
+                problems.append(f'{where}/check.json: command {i} is not a {lab.get("tool")} command')
         for s in lab.get('shared', []):
             if not os.path.isfile(os.path.join(ROOT, s['from'])):
                 problems.append(f"{where}: shared file {s['from']} missing")
@@ -676,12 +775,27 @@ HELP = f"""Usage:
   ./check --all           every lab of the course
   ./check --list          the labs, and how each is checked
   ./check --lint          repository structure, starter syntax and checker labs (what CI runs)
+  ./check <lab> --command=<id>
+                          run one of a CLI-tool lab's commands, as the site offers them (./check --list shows them)
 Options: -v / --verbose shows the program's output; --strict (with --lint) fails when a tool is missing."""
 
 
 def main(args):
-    flags = {a for a in args if a.startswith('-')}
-    names = [a for a in args if not a.startswith('-')]
+    command = None
+    rest = []
+    it = iter(args)
+    for a in it:
+        if a == '--command':
+            command = next(it, None)
+        elif a.startswith('--command='):
+            command = a.split('=', 1)[1]
+        else:
+            rest.append(a)
+    if '--command' in args and command is None:
+        print('check: --command needs an id', file=sys.stderr)
+        return 2
+    flags = {a for a in rest if a.startswith('-')}
+    names = [a for a in rest if not a.startswith('-')]
     unknown = sorted(flags - {'--all', '--list', '--lint', '--strict', '-v', '--verbose', '-h', '--help'})
     if '-h' in flags or '--help' in flags or unknown or (not names and not flags & {'--all', '--list', '--lint'}):
         if unknown:
@@ -694,12 +808,14 @@ def main(args):
         for entry in manifest():
             lab = load_lab(entry)
             print(f"{lab['lab']:<14} {lab['mode']:<10} {lab.get('command') or ''}")
+            for c in lab.get('commands') or []:
+                print(f"{'':<14} {'':<10}   --command={c['id']:<14} {c['line']}")
         return 0
     entries = manifest() if '--all' in flags else select(names)
     verbose = bool(flags & {'-v', '--verbose'}) or len(entries) == 1
     tally = {'pass': 0, 'fail': 0, 'ran': 0, 'skip': 0, 'notool': 0}
     for entry in entries:
-        tally[check_lab(load_lab(entry), verbose)] += 1
+        tally[check_lab(load_lab(entry), verbose, command)] += 1
     if len(entries) > 1:
         tail = f", {tally['notool']} not run (missing tool)" if tally['notool'] else ''
         print(f"\n{tally['pass']} passed, {tally['fail']} failed, {tally['ran']} ran without grading, {tally['skip']} read along{tail}")

@@ -8,10 +8,10 @@ Module 1: What An API Is And HTTP For Real · lesson 1.5 · Free · [Open the le
 
 | Lab | What it is | Check |
 | --- | --- | --- |
-| [m01l05-02](m01l05-02/) | Credentials in, cookie out | Runs, not graded |
-| [m01l05-04](m01l05-04/) | The browser asks before posting | Runs, not graded |
+| [m01l05-02](m01l05-02/) | Credentials in, cookie out | Graded |
+| [m01l05-04](m01l05-04/) | The browser asks before posting | Graded |
 | [m01l05-05](m01l05-05/) | The preflight decision | Read along |
-| [m01l05-06](m01l05-06/) | No cookie means no session | Runs, not graded |
+| [m01l05-06](m01l05-06/) | No cookie means no session | Graded |
 
 ## Check yourself
 

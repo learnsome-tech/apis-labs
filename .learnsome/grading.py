@@ -10,6 +10,7 @@ import re
 
 # JavaScript's WhiteSpace and LineTerminator characters: what `\s` matches and String#trim removes.
 JS_SPACE = '\t\n\x0b\x0c\r \xa0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000\ufeff'
+JS_SPACE_CLASS = re.escape(JS_SPACE)
 _S = '[' + re.escape(JS_SPACE) + ']'
 _NS = '[^' + re.escape(JS_SPACE) + ']'
 _DOT = '[^\n\r\u2028\u2029]'
@@ -223,7 +224,126 @@ def terraform_normalize(text):
         line = _trim_end(ANSI.sub('', raw))
         if line != '' and not any(r.search(line) for r in _TERRAFORM_NOISE):
             out.append(_terraform_mask(line))
+    return _terraform_sort_siblings(out)
+
+
+# `terraform providers` prints a module's providers in no fixed order: each run of sibling tree lines (`├── ` or
+# `└── ` after the same indentation) compares as a sorted list, branch glyphs aside.
+_TERRAFORM_TREE = re.compile('^((?:[│ ] {3})*)[├└]── ')
+
+
+def _js_sorted(items):
+    """JavaScript's default sort: by UTF-16 code units."""
+    return sorted(items, key=lambda s: s.encode('utf-16-be'))
+
+
+def _terraform_sort_siblings(lines):
+    out = []
+    i = 0
+    while i < len(lines):
+        m = _TERRAFORM_TREE.search(lines[i])
+        if not m:
+            out.append(lines[i])
+            i += 1
+            continue
+        indent = m.group(1)
+        run = []
+        while i < len(lines):
+            m = _TERRAFORM_TREE.search(lines[i])
+            if not m or m.group(1) != indent:
+                break
+            run.append(_TERRAFORM_TREE.sub(lambda mm: mm.group(1) + '── ', lines[i], count=1))
+            i += 1
+        out.extend(_js_sorted(run))
     return out
+
+
+# apis-course: an HTTP transcript compared byte for byte except Date and Server headers, a test suite's elapsed
+# time and the directory in a traceback's File line; a body glued to the next status line or test report is
+# split off; blank lines ignored.
+_HTTP_SPLIT = re.compile(r'(?<=[^\n])(?=HTTP/[0-9](?:\.[0-9])? [0-9]{3}\b|Ran [0-9]+ tests? in )', re.ASCII)
+_HTTP_DROP = re.compile(r'^(?:Date|Server):' + _S, re.ASCII | re.IGNORECASE)
+_HTTP_FILE = re.compile(r'File "[^"]*/([^"/]+)", line')
+_HTTP_RAN = re.compile(r'(Ran [0-9]+ tests? in )[0-9.]+s')
+
+
+def http_normalize(text):
+    out = []
+    for line in _HTTP_SPLIT.sub('\n', _newlines(text)).split('\n'):
+        if _HTTP_DROP.search(line):
+            continue
+        line = _HTTP_FILE.sub(lambda m: f'File "{m.group(1)}", line', line, count=1)
+        line = _rstrip_ws(_HTTP_RAN.sub(lambda m: m.group(1) + 'SECONDSs', line, count=1))
+        if line != '':
+            out.append(line)
+    return out
+
+
+# `shape`: output that depends on the clock or the machine is graded by its structure: dates, times, durations,
+# absolute paths, numbers, booleans and object ids masked; `$ command` lines start sections and must match; a
+# section filtering by date may list any of the expected lines, in any number.
+_SHAPE_MASKS = [(re.compile(p, f), r) for p, f, r in (
+    (r'\b[A-Z][a-z]{2} [A-Z][a-z]{2} +[0-9]{1,2} [0-9][0-9]:[0-9][0-9]:[0-9][0-9](?: [0-9]{4})?(?: [-+][0-9]{4})?\b', re.ASCII, '<date>'),
+    (r'\b[0-9]{4}-[0-9][0-9]-[0-9][0-9](?:[ T][0-9][0-9]:[0-9][0-9](?::[0-9][0-9](?:\.[0-9]+)?)?(?:Z|' + _S + r'?[-+][0-9][0-9]:?[0-9][0-9])?)?', re.ASCII, '<date>'),
+    (r'\b[0-9]{1,2}:[0-9][0-9](?::[0-9][0-9](?:\.[0-9]+)?)?\b', re.ASCII, '<time>'),
+    (r'\b[0-9]+ (?:seconds?|minutes?|hours?|days?|weeks?|months?|years?) ago\b', re.ASCII, '<date>'),
+    (r'(?<![\w.:/-])/(?:[\w.@+-]+/)*[\w.@+-]+', re.ASCII, '<path>'),
+    (r'\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b', re.ASCII, '<id>'),
+    (r'\b(?:True|False|true|false)\b', re.ASCII, '<bool>'),
+    (r'[-+]?[0-9]+(?:[.,][0-9]+)*(?:[eE][-+]?[0-9]+)?', re.ASCII, '<n>'),
+)]
+_DATE_FILTER = re.compile(r'(?:^|' + _S + r')--(?:since|until|after|before)[=' + JS_SPACE_CLASS + ']')
+
+
+def _shape_sections(text):
+    sections = [{'command': None, 'clock': False, 'lines': []}]
+    for raw in _newlines(text).split('\n'):
+        line = _rstrip_ws(ANSI.sub('', raw))
+        if line == '':
+            continue
+        masked = line
+        for pattern, replacement in _SHAPE_MASKS:
+            masked = pattern.sub(lambda _m, r=replacement: r, masked)
+        if line.startswith('$ '):
+            sections.append({'command': masked, 'clock': bool(_DATE_FILTER.search(line)), 'lines': []})
+        else:
+            sections[-1]['lines'].append(masked)
+    return sections
+
+
+def _shape_grade(stdout, stderr, expected_text):
+    expected = _shape_sections(expected_text)
+    actual = _shape_sections(stdout + stderr)
+    anywhere = {l for s in expected for l in s['lines']}
+    diff = []
+    line = 0
+    for i in range(max(len(expected), len(actual))):
+        if len(diff) >= MAX_DIFF:
+            break
+        exp = expected[i] if i < len(expected) else None
+        act = actual[i] if i < len(actual) else None
+        if i > 0:
+            line += 1
+            e_cmd = exp['command'] if exp else None
+            a_cmd = act['command'] if act else None
+            if e_cmd != a_cmd:
+                diff.append({'line': line, 'expected': e_cmd, 'actual': a_cmd})
+                break
+        if exp['clock']:
+            for got in act['lines']:
+                line += 1
+                if got not in anywhere:
+                    diff.append({'line': line, 'expected': None, 'actual': got})
+            continue
+        for j in range(max(len(exp['lines']), len(act['lines']))):
+            if len(diff) >= MAX_DIFF:
+                break
+            line += 1
+            e = exp['lines'][j] if j < len(exp['lines']) else None
+            a = act['lines'][j] if j < len(act['lines']) else None
+            if e != a:
+                diff.append({'line': line, 'expected': e, 'actual': a})
+    return {'passed': len(diff) == 0, 'diff': diff}
 
 
 
@@ -419,6 +539,10 @@ def grade_output(stdout, stderr, expected_text, grading='lines'):
         return _normalized_grade(git_normalize, stdout, stderr, expected_text)
     if grading == 'bash':
         return _normalized_grade(bash_normalize, stdout, stderr, expected_text)
+    if grading == 'http':
+        return _normalized_grade(http_normalize, stdout, stderr, expected_text)
+    if grading == 'shape':
+        return _shape_grade(stdout, stderr, expected_text)
     if grading == 'pytest':
         return _pytest_grade(stdout, stderr, expected_text)
     stdout_diff = line_diff(stdout, expected_text)

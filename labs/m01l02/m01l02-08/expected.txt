@@ -1,0 +1,8 @@
+checking file app.py
+HTTP/1.1 404 Not Found
+Content-Type: application/problem+json
+Cache-Control: no-store
+Content-Length: 94
+{"type":"about:blank","title":"Not Found","status":404,"detail":"No task has that identifier"}
+Ran 2 tests in 0.514s
+OK

@@ -1,7 +1,7 @@
 # m01l04-02 · Read the cache policy
 
 **Lesson:** [Caching And Conditional Requests](https://learnsome.tech/learn/apis-course/m01l04) (lesson 1.4, module 1: What An API Is And HTTP For Real) · Free  
-**Check:** Runs, not graded
+**Check:** Graded
 
 ## Goal
 
@@ -13,6 +13,7 @@ In the lesson: Read one task and look at the metadata before the body. This serv
 
 - [`starter/run.sh`](starter/run.sh): the listing from the lesson
 - 65 files of the course's shared working tree (`shared/sample-api/`), copied in beside the starter when the lab runs
+- [`expected.txt`](expected.txt): the output the check compares with
 - [`check.json`](check.json): how `./check` runs and checks this lab
 
 ## Steps
@@ -27,9 +28,7 @@ In the lesson: Read one task and look at the metadata before the body. This serv
 4. Run it: `python3 server.py --port 8765 & curl -si localhost:8765/tasks/1`.
 5. Check it from the repository root: `./check m01l04-02`.
 
-## What the lesson recorded
-
-Shown for reference; the check does not compare it.
+## Expected output
 
 ```text
 HTTP/1.1 200 OK
@@ -43,9 +42,13 @@ Content-Length: 56
 
 ## How to check
 
+Before the program runs, `./check` starts it (`python3 server.py --port 8765`) and waits for port 8765, as the site does; it is stopped when the program ends.
+
+It runs with curl 8 first on `PATH`, as on the site (the dev container has it).
+
 `./check m01l04-02` copies `starter/` into a scratch directory and runs `python3 server.py --port 8765 & curl -si localhost:8765/tasks/1` there, the way the site's lab sandbox does: that directory is the working directory and `HOME`, `LANG=C.UTF-8`, `TZ=UTC`, a limit of 10 seconds and 256 KiB of output per stream.
 
-It runs without a pass or fail: what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail. `./check` shows the output and the exit code.
+It passes when the output matches `expected.txt` by the site's rules, within the limits. undefined A pass here is a pass on the site.
 
 ---
 

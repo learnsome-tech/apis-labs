@@ -2,7 +2,7 @@
   "lab": "m01l01-07",
   "lesson": "m01l01",
   "title": "Ask which version you got",
-  "mode": "run",
+  "mode": "graded",
   "runner": "recorded",
   "command": "python3 server.py --port 8765 & curl -so /dev/null -w '%{http_version}\\n' localhost:8765/tasks",
   "main": "run.sh",
@@ -272,11 +272,36 @@
     }
   ],
   "stdin": null,
-  "expected": null,
-  "grading": null,
+  "expected": "expected.txt",
+  "grading": "http",
   "requires": [
     "bash",
     "curl"
   ],
-  "note": "what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail."
+  "commands": [
+    {
+      "id": "recorded",
+      "label": "Lesson command",
+      "line": "python3 server.py --port 8765 & curl -so /dev/null -w '%{http_version}\\n' localhost:8765/tasks"
+    }
+  ],
+  "toolchain": [
+    "curl-8"
+  ],
+  "service": {
+    "start": [
+      "python3",
+      "server.py",
+      "--port",
+      "8765"
+    ],
+    "port": 8765,
+    "patch": null,
+    "env": {
+      "BASE_URL": "http://127.0.0.1:8765",
+      "COLUMNS": "100",
+      "PYTHONWARNINGS": "ignore"
+    }
+  },
+  "note": null
 }

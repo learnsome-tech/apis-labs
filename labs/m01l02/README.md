@@ -9,11 +9,11 @@ Module 1: What An API Is And HTTP For Real · lesson 1.2 · Free · [Open the le
 | Lab | What it is | Check |
 | --- | --- | --- |
 | [m01l02-02](m01l02-02/) | Create, read, update, delete, and the methods for each | Read along |
-| [m01l02-03](m01l02-03/) | A create, a read, and a delete | Runs, not graded |
+| [m01l02-03](m01l02-03/) | A create, a read, and a delete | Graded |
 | [m01l02-04](m01l02-04/) | Where the method decision is taken | Read along |
-| [m01l02-06](m01l02-06/) | Three ways to be wrong, three statuses | Runs, not graded |
-| [m01l02-07](m01l02-07/) | When the status lies | Runs, not graded |
-| [m01l02-08](m01l02-08/) | The fix, and who says it is fixed | Runs, not graded |
+| [m01l02-06](m01l02-06/) | Three ways to be wrong, three statuses | Graded |
+| [m01l02-07](m01l02-07/) | When the status lies | Graded |
+| [m01l02-08](m01l02-08/) | The fix, and who says it is fixed | Graded |
 
 ## Exercises
 

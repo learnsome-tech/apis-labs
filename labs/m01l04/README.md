@@ -8,11 +8,11 @@ Module 1: What An API Is And HTTP For Real · lesson 1.4 · Free · [Open the le
 
 | Lab | What it is | Check |
 | --- | --- | --- |
-| [m01l04-02](m01l04-02/) | Read the cache policy | Runs, not graded |
+| [m01l04-02](m01l04-02/) | Read the cache policy | Graded |
 | [m01l04-03](m01l04-03/) | Validation saves the body | Read along |
-| [m01l04-04](m01l04-04/) | Ask whether it changed | Runs, not graded |
+| [m01l04-04](m01l04-04/) | Ask whether it changed | Graded |
 | [m01l04-05](m01l04-05/) | The validator also protects writes | Read along |
-| [m01l04-06](m01l04-06/) | A stale write loses safely | Runs, not graded |
+| [m01l04-06](m01l04-06/) | A stale write loses safely | Graded |
 
 ## Exercises
 
