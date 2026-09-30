@@ -1,0 +1,11 @@
+### inside the window
+# expect 200
+GET {{base}}/limited
+
+### still inside it
+# expect 200
+GET {{base}}/limited
+
+### over the edge
+# expect 429
+GET {{base}}/limited

@@ -1,0 +1,11 @@
+### the specification the server serves
+# expect 200
+GET {{base}}/openapi.json
+
+### an operation the specification declares
+# expect 200
+GET {{base}}/tasks?limit=2
+
+### a status the specification declares
+# expect 404
+GET {{base}}/tasks/999

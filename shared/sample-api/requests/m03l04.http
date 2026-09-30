@@ -1,0 +1,12 @@
+### one object per line, not one array
+# expect 200
+GET {{base}}/export
+
+### an event stream from the beginning
+# expect 200
+GET {{base}}/stream
+
+### and resumed from where a client left off
+# expect 200
+GET {{base}}/stream
+Last-Event-ID: 2

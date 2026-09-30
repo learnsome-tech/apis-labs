@@ -203,7 +203,7 @@ _TERRAFORM_NOISE = [re.compile(p) for p in (
 _TERRAFORM_MASKS = [(re.compile(p, re.ASCII), r) for p, r in (
     (r'\[id=[^\]]*\]', '[id=ID]'),
     (r'\bid *= *"[^"]*"', 'id = "ID"'),
-    (r'\bafter \d+m?\d+s\b', 'after Ns'),
+    (r'\bafter (?:\d+m)?\d+s\b', 'after Ns'),
     (r'\bv\d+\.\d+\.\d+\b', 'vX.Y.Z'),
     (r'\b20\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z?\b', 'TIMESTAMP'),
     (r'/(?:private/)?(?:var|tmp)/[\w./-]*tfcourse-[\w./-]*', 'WORKDIR'),

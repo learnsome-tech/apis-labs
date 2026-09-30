@@ -1,0 +1,11 @@
+### three requests, which is not a load test
+# expect 200
+GET {{base}}/tasks?limit=3
+
+### but the shape of one
+# expect 200
+GET {{base}}/tasks?limit=3&include=owner
+
+### the counters the run is judged by
+# expect 200
+GET {{base}}/metrics

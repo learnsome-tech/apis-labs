@@ -1,0 +1,11 @@
+### by title, ascending
+# expect 200
+GET {{base}}/tasks?sort=title&limit=3
+
+### by title, descending
+# expect 200
+GET {{base}}/tasks?sort=-title&limit=3
+
+### a sort key that is not offered
+# expect 400
+GET {{base}}/tasks?sort=owner

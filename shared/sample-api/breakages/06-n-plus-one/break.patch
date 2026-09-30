@@ -1,0 +1,15 @@
+--- a/app.py
++++ b/app.py
+@@ -244,9 +244,10 @@
+     def embed_owners(self, rows):
+         """One query for every owner, not one query for every row."""
+         before = self.queries
+-        owners = dict(self.query('SELECT id,name FROM owners'))
+         for row in rows:
+-            row['ownerName'] = owners[row['owner']]
++            row['ownerName'] = self.query(
++                'SELECT name FROM owners WHERE id=?',
++                (row['owner'],)).fetchone()[0]
+         return self.queries - before + 1
+ 
+     def create_task(self, headers, body):

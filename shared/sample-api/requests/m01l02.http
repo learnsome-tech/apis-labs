@@ -1,0 +1,26 @@
+### read one task
+# expect 200
+GET {{base}}/tasks/1
+
+### a task that does not exist
+# expect 404
+GET {{base}}/tasks/999
+
+### create one
+# expect 201
+# capture made = json id
+POST {{base}}/tasks
+Content-Type: application/json
+
+{"title": "Written by a request file"}
+
+### a method the collection does not allow
+# expect 405
+PUT {{base}}/tasks
+Content-Type: application/json
+
+{"title": "nope"}
+
+### remove what this file created
+# expect 204
+DELETE {{base}}/tasks/{{made}}

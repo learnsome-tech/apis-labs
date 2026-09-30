@@ -1,0 +1,20 @@
+### json is what this resource speaks
+# expect 200
+GET {{base}}/tasks
+Accept: application/json
+
+### asking for xml gets a refusal
+# expect 406
+GET {{base}}/tasks
+Accept: application/xml
+
+### the headers without the body
+# expect 200
+HEAD {{base}}/tasks
+
+### a body in the wrong media type
+# expect 415
+POST {{base}}/tasks
+Content-Type: text/plain
+
+title=Written

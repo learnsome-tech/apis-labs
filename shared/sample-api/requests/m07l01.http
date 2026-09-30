@@ -1,0 +1,14 @@
+### polling: what has happened since the last identifier
+# expect 200
+GET {{base}}/events?after=0
+
+### a delivery with no signature is refused
+# expect 401
+POST {{base}}/webhook
+Content-Type: application/json
+
+{"id": "delivery-1"}
+
+### polling again, to show nothing was accepted
+# expect 200
+GET {{base}}/events?after=0

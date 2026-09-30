@@ -1,0 +1,15 @@
+--- a/app.py
++++ b/app.py
+@@ -257,11 +257,7 @@
+                                      'characters')
+         key = headers.get('idempotency-key')
+         fingerprint = json.dumps(body, sort_keys=True)
+-        if key and key in self.replays:
+-            first, response = self.replays[key]
+-            if first != fingerprint:
+-                return self.problem(409, 'Key reused for another request')
+-            return response
++        # The replay table is never consulted, so a retry creates again.
+         row = self.query('INSERT INTO tasks(title,state,owner) VALUES (?,?,?)',
+                          (body['title'], 'open', 'alice'))
+         self.db.commit()

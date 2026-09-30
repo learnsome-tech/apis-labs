@@ -1,0 +1,10 @@
+### an event stream from the start
+# expect 200
+GET {{base}}/stream
+Accept: text/event-stream
+
+### resumed with the last identifier the client saw
+# expect 200
+GET {{base}}/stream
+Accept: text/event-stream
+Last-Event-ID: 2

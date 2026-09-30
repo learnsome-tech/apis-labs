@@ -1,0 +1,18 @@
+### no credentials at all
+# expect 401
+POST {{base}}/session
+
+### the wrong credentials
+# expect 401
+POST {{base}}/session
+Authorization: Basic YWxpY2U6d3Jvbmc=
+
+### the right ones
+# expect 201
+POST {{base}}/session
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### and then the session cookie
+# expect 200
+GET {{base}}/session
+Cookie: session=local-demo

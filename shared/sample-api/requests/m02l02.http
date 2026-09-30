@@ -1,0 +1,15 @@
+### the collection is a plural noun
+# expect 200
+GET {{base}}/tasks
+
+### the item is the collection plus an identifier
+# expect 200
+GET {{base}}/tasks/2
+
+### paths are case sensitive, so this is not the collection
+# expect 404
+GET {{base}}/Tasks
+
+### and there is no verb in the path
+# expect 404
+GET {{base}}/getTasks

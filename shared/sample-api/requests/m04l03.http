@@ -1,0 +1,25 @@
+### the first attempt
+# expect 201
+# capture first = json id
+POST {{base}}/tasks
+Content-Type: application/json
+Idempotency-Key: requests-file-key
+
+{"title": "Charge me once"}
+
+### the retry, with the same key
+# expect 201
+# capture second = json id
+POST {{base}}/tasks
+Content-Type: application/json
+Idempotency-Key: requests-file-key
+
+{"title": "Charge me once"}
+
+### the same key over a different body is a conflict
+# expect 409
+POST {{base}}/tasks
+Content-Type: application/json
+Idempotency-Key: requests-file-key
+
+{"title": "Something else"}

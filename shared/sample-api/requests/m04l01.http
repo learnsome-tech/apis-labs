@@ -1,0 +1,14 @@
+### a failure the client cannot fix by retrying differently
+# expect 500
+GET {{base}}/boom
+
+### a failure that is the client's to fix
+# expect 404
+GET {{base}}/tasks/999
+
+### a body that does not satisfy the schema
+# expect 422
+POST {{base}}/tasks
+Content-Type: application/json
+
+{"title": ""}

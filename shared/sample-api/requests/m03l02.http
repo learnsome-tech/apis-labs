@@ -1,0 +1,15 @@
+### only the open ones
+# expect 200
+GET {{base}}/tasks?state=open
+
+### only one owner
+# expect 200
+GET {{base}}/tasks?owner=bob
+
+### a substring of the title
+# expect 200
+GET {{base}}/tasks?q=es
+
+### two filters at once
+# expect 200
+GET {{base}}/tasks?state=open&owner=alice

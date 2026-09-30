@@ -1,0 +1,11 @@
+### a websocket route asked for over plain HTTP
+# expect 426
+GET {{base}}/socket
+
+### the wrong protocol version is refused before the handshake
+# expect 400
+GET {{base}}/socket
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Version: 8
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==

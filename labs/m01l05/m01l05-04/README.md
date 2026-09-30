@@ -12,13 +12,14 @@ In the lesson: Before a cross origin post with a non simple request, the browser
 ## Files
 
 - [`starter/preflight.py`](starter/preflight.py): the listing from the lesson
+- 65 files of the course's shared working tree (`shared/sample-api/`), copied in beside the starter when the lab runs
 - [`check.json`](check.json): how `./check` runs and checks this lab
 
 ## Steps
 
 1. Go to the starter: `cd labs/m01l05/m01l05-04/starter`
 2. Read `preflight.py`.
-3. Run it: `python3 preflight.py`.
+3. Run it: `python3 server.py --port 8765 & python3 preflight.py`.
 4. Check it from the repository root: `./check m01l05-04`.
 
 ## What the lesson recorded
@@ -34,7 +35,7 @@ Access-Control-Max-Age: 600
 
 ## How to check
 
-`./check m01l05-04` copies `starter/` into a scratch directory and runs `python3 preflight.py` there, the way the site's lab sandbox does: that directory is the working directory and `HOME`, `LANG=C.UTF-8`, `TZ=UTC`, a limit of 10 seconds and 256 KiB of output per stream.
+`./check m01l05-04` copies `starter/` into a scratch directory and runs `python3 server.py --port 8765 & python3 preflight.py` there, the way the site's lab sandbox does: that directory is the working directory and `HOME`, `LANG=C.UTF-8`, `TZ=UTC`, a limit of 10 seconds and 256 KiB of output per stream.
 
 It runs without a pass or fail: what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail. `./check` shows the output and the exit code.
 

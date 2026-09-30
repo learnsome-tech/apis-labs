@@ -1,0 +1,19 @@
+### credentials in, signed token out
+# expect 200
+# capture token = json access_token
+POST {{base}}/token
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### the token opens the guarded route
+# expect 200
+GET {{base}}/private
+Authorization: Bearer {{token}}
+
+### a token that was never signed does not
+# expect 401
+GET {{base}}/private
+Authorization: Bearer not.a.token
+
+### and no token at all does not either
+# expect 401
+GET {{base}}/private

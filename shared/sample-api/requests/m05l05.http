@@ -1,0 +1,32 @@
+### a token with read scope only
+# expect 200
+# capture read = json access_token
+POST {{base}}/token?scope=tasks:read
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### the write route refuses it
+# expect 403
+GET {{base}}/scope
+Authorization: Bearer {{read}}
+
+### a token with both scopes
+# expect 200
+# capture write = json access_token
+POST {{base}}/token?scope=tasks:read%20tasks:write
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### which the write route accepts
+# expect 200
+GET {{base}}/scope
+Authorization: Bearer {{write}}
+
+### the previous key generation still verifies
+# expect 200
+# capture old = json access_token
+POST {{base}}/token?kid=previous
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### so a rotation does not log everybody out
+# expect 200
+GET {{base}}/private
+Authorization: Bearer {{old}}

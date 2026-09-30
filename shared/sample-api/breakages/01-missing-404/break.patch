@@ -1,0 +1,11 @@
+--- a/app.py
++++ b/app.py
+@@ -279,7 +279,7 @@
+         row = self.query('SELECT * FROM tasks WHERE id=?',
+                          (parts[1],)).fetchone()
+         if row is None:
+-            return self.problem(404, 'No task has that identifier')
++            return 200, {}, {}
+         data = dict(row)
+         etag = '"' + str(data.pop('revision')) + '"'
+         fields = {'ETag': etag, 'Cache-Control': 'private, max-age=0'}

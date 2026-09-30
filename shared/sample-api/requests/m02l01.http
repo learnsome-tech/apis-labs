@@ -1,0 +1,16 @@
+### one uniform interface, two resources
+# expect 200
+GET {{base}}/tasks
+
+### an identified resource
+# expect 200
+GET {{base}}/tasks/1
+
+### state is carried in the message, not the server
+# expect 200
+GET {{base}}/tasks/1
+Accept: application/json
+
+### the same request again gets the same answer
+# expect 200
+GET {{base}}/tasks/1

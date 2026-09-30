@@ -1,0 +1,17 @@
+### the validator comes with the task
+# expect 200
+# capture etag = header ETag
+GET {{base}}/tasks/1
+
+### the same validator means nothing changed
+# expect 304
+GET {{base}}/tasks/1
+If-None-Match: {{etag}}
+
+### a stale validator loses the race
+# expect 412
+PATCH {{base}}/tasks/1
+Content-Type: application/json
+If-Match: "0"
+
+{"title": "Too late"}

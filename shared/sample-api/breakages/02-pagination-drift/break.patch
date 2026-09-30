@@ -1,0 +1,11 @@
+--- a/app.py
++++ b/app.py
+@@ -209,7 +209,7 @@
+         if sort not in SORTS:
+             return self.problem(400, 'Unsupported sort')
+         after = int(query.get('after', '0'))
+-        cursor = '>'
++        cursor = '>='
+         sql = f'SELECT id,title,state,owner FROM tasks WHERE id {cursor} ?'
+         args = [after]
+         for field in ('state', 'owner'):

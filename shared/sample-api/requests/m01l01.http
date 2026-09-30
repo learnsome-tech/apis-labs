@@ -1,0 +1,11 @@
+### the service is up
+# expect 200
+GET {{base}}/health
+
+### the contract it publishes
+# expect 200
+GET {{base}}/openapi.json
+
+### the first collection
+# expect 200
+GET {{base}}/tasks

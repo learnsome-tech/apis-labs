@@ -1,0 +1,17 @@
+### embedded owners, with the query count in a header
+# expect 200
+GET {{base}}/tasks?include=owner&limit=3
+
+### a validator, so a repeat costs nothing
+# expect 200
+# capture etag = header ETag
+GET {{base}}/tasks/1
+
+### the repeat
+# expect 304
+GET {{base}}/tasks/1
+If-None-Match: {{etag}}
+
+### the counters
+# expect 200
+GET {{base}}/metrics

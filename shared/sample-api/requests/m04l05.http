@@ -1,0 +1,11 @@
+### version one shape
+# expect 200
+GET {{base}}/tasks?limit=2
+
+### version two shape, at its own path
+# expect 200
+GET {{base}}/v2/tasks
+
+### the old path keeps working
+# expect 200
+GET {{base}}/tasks/1

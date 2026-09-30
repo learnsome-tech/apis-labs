@@ -1,0 +1,6 @@
+[
+  {"id":1,"title":"Design","state":"open","owner":"alice"},
+  {"id":2,"title":"Build","state":"open","owner":"bob"},
+  {"id":3,"title":"Test","state":"done","owner":"alice"},
+  {"id":4,"title":"Ship","state":"open","owner":"bob"}
+]

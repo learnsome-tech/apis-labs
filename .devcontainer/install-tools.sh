@@ -15,7 +15,7 @@ trap 'rm -rf "$tmp"' EXIT
 fetch() { curl -fsSL --retry 3 "$1" -o "$2" && echo "$3  $2" | sha256sum -c - >/dev/null; }
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -q
+apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update -q
 apt-get install -y -q --no-install-recommends bash git unzip xz-utils ca-certificates curl
 if [ "$mode" != ci ]; then
   apt-get install -y -q --no-install-recommends procps iproute2 util-linux findutils coreutils psmisc lsof strace less tree bc xxd binutils file acl gettext-base netcat-openbsd dnsutils iputils-ping traceroute net-tools openssh-client make patch bsdextrautils shellcheck
@@ -39,3 +39,8 @@ for t in ansible ansible-playbook ansible-inventory ansible-config ansible-doc a
   ln -sf /opt/lab/ansible-tool "/usr/local/bin/$t"
 done
 ln -sf /opt/pytools/bin/yamllint /usr/local/bin/yamllint
+
+# The toolchains also under /opt/lab/bin, the sandbox's own PATH entry
+mkdir -p /opt/lab/bin
+ln -sf /opt/python/bin/python3.14 /opt/lab/bin/python3
+ln -sf /opt/python/bin/python3.14 /opt/lab/bin/python

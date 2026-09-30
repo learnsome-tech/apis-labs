@@ -1,0 +1,11 @@
+### just the fields a list view needs
+# expect 200
+GET {{base}}/tasks?fields=id,title
+
+### a field that is not on offer
+# expect 400
+GET {{base}}/tasks?fields=secret
+
+### the other direction: embed a related name
+# expect 200
+GET {{base}}/tasks?include=owner&limit=3

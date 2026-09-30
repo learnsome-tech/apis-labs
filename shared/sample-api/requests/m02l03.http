@@ -1,0 +1,11 @@
+### the task
+# expect 200
+GET {{base}}/tasks/1
+
+### the owner of that task, as its own resource
+# expect 200
+GET {{base}}/tasks/1/owner
+
+### a relationship on a task that has another owner
+# expect 200
+GET {{base}}/tasks/2/owner

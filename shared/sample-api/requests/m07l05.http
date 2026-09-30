@@ -1,0 +1,17 @@
+### health, which a gateway probes
+# expect 200
+GET {{base}}/health
+
+### the preflight a gateway often answers itself
+# expect 204
+OPTIONS {{base}}/tasks
+Origin: https://course.example
+Access-Control-Request-Method: GET
+
+### the route behind the gateway
+# expect 200
+GET {{base}}/tasks?limit=2
+
+### and the counters it exposes
+# expect 200
+GET {{base}}/metrics

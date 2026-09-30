@@ -1,0 +1,13 @@
+### the consumer's expectation of a missing resource
+# expect 404
+GET {{base}}/tasks/999
+
+### the provider's validator
+# expect 200
+# capture etag = header ETag
+GET {{base}}/tasks/1
+
+### the conditional request the consumer relies on
+# expect 304
+GET {{base}}/tasks/1
+If-None-Match: {{etag}}

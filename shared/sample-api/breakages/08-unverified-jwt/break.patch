@@ -1,0 +1,13 @@
+--- a/app.py
++++ b/app.py
+@@ -67,9 +67,7 @@
+         claims = json.loads(decode(payload_b64))
+         if header.get('alg') != 'HS256' or header.get('kid') not in KEYS:
+             return None
+-        expected = sign(KEYS[header['kid']], f'{header_b64}.{payload_b64}')
+-        if not hmac.compare_digest(signature, expected):
+-            return None
++        # The signature is decoded and then ignored: the whole fault.
+         if claims.get('iss') != 'course' or claims.get('aud') != 'tasks':
+             return None
+         if claims.get('exp', 0) <= time.time():

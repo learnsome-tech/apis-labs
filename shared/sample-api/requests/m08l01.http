@@ -1,0 +1,18 @@
+### a request that would read the whole table
+# expect 400
+GET {{base}}/tasks?limit=100000
+
+### a guarded route without a token
+# expect 401
+GET {{base}}/private
+
+### a body in a media type the route does not accept
+# expect 415
+POST {{base}}/tasks
+Content-Type: text/plain
+
+title=x
+
+### a session route with no session
+# expect 401
+GET {{base}}/session

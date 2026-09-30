@@ -1,0 +1,14 @@
+### the problem document for a missing resource
+# expect 404
+GET {{base}}/tasks/999
+
+### the problem document for a bad parameter
+# expect 400
+GET {{base}}/tasks?sort=nonsense
+
+### the problem document for an unusable body
+# expect 422
+POST {{base}}/tasks
+Content-Type: application/json
+
+{"titel": "a typo in the field name"}

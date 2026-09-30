@@ -1,0 +1,16 @@
+### the first page
+# expect 200
+# capture next = json next
+GET {{base}}/tasks?limit=2
+
+### the page after it, by cursor
+# expect 200
+GET {{base}}{{next}}
+
+### the cursor is the identifier the page ended on
+# expect 200
+GET {{base}}/tasks?after=2&limit=2
+
+### and a page size nobody should be allowed to ask for
+# expect 400
+GET {{base}}/tasks?limit=100000

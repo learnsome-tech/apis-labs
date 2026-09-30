@@ -1,0 +1,11 @@
+### what a mock is generated from
+# expect 200
+GET {{base}}/openapi.json
+
+### the real response the mock stands in for
+# expect 200
+GET {{base}}/tasks?limit=2
+
+### the error the mock must be able to produce too
+# expect 404
+GET {{base}}/tasks/999

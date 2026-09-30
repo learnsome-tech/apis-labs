@@ -1,0 +1,13 @@
+### a session, which is personal data
+# expect 201
+POST {{base}}/session
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### the response about a person is not cacheable
+# expect 200
+GET {{base}}/session
+Cookie: session=local-demo
+
+### the task list carries identifiers, not people
+# expect 200
+GET {{base}}/tasks?limit=3

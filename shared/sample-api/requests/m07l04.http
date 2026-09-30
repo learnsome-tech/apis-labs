@@ -1,0 +1,15 @@
+### accepted now, done later
+# expect 202
+# capture job = json id
+POST {{base}}/jobs
+Content-Type: application/json
+
+{}
+
+### the queue's answer is a place to look
+# expect 200
+GET {{base}}/jobs/{{job}}
+
+### and the log of what has happened
+# expect 200
+GET {{base}}/events?after=0

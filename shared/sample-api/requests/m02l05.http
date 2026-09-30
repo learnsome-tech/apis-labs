@@ -1,0 +1,13 @@
+### the item points at its relations
+# expect 200
+# capture link = header Link
+GET {{base}}/tasks/1
+
+### the collection points at the next page
+# expect 200
+# capture next = json next
+GET {{base}}/tasks?limit=2
+
+### following a link the server gave, rather than building one
+# expect 200
+GET {{base}}{{next}}

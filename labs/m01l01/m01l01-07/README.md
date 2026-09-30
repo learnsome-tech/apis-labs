@@ -12,6 +12,7 @@ In the lesson: You do not have to guess which version you are speaking. Throw th
 ## Files
 
 - [`starter/run.sh`](starter/run.sh): the listing from the lesson
+- 65 files of the course's shared working tree (`shared/sample-api/`), copied in beside the starter when the lab runs
 - [`check.json`](check.json): how `./check` runs and checks this lab
 
 ## Steps
@@ -23,7 +24,7 @@ In the lesson: You do not have to guess which version you are speaking. Throw th
    ```sh
    curl -so /dev/null -w '%{http_version}\n' localhost:8765/tasks
    ```
-4. Run it: `curl -so /dev/null -w '%{http_version}\n' localhost:8765/tasks`.
+4. Run it: `python3 server.py --port 8765 & curl -so /dev/null -w '%{http_version}\n' localhost:8765/tasks`.
 5. Check it from the repository root: `./check m01l01-07`.
 
 ## What the lesson recorded
@@ -36,7 +37,7 @@ Shown for reference; the check does not compare it.
 
 ## How to check
 
-`./check m01l01-07` copies `starter/` into a scratch directory and runs `curl -so /dev/null -w '%{http_version}\n' localhost:8765/tasks` there, the way the site's lab sandbox does: that directory is the working directory and `HOME`, `LANG=C.UTF-8`, `TZ=UTC`, a limit of 10 seconds and 256 KiB of output per stream.
+`./check m01l01-07` copies `starter/` into a scratch directory and runs `python3 server.py --port 8765 & curl -so /dev/null -w '%{http_version}\n' localhost:8765/tasks` there, the way the site's lab sandbox does: that directory is the working directory and `HOME`, `LANG=C.UTF-8`, `TZ=UTC`, a limit of 10 seconds and 256 KiB of output per stream.
 
 It runs without a pass or fail: what the listing prints in the lab sandbox differs from the output recorded for the lesson (it depends on the machine, the clock or the network), so the site runs it without a pass or fail. `./check` shows the output and the exit code.
 

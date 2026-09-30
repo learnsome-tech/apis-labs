@@ -1,0 +1,11 @@
+--- a/app.py
++++ b/app.py
+@@ -282,7 +282,7 @@
+             return self.problem(404, 'No task has that identifier')
+         data = dict(row)
+         etag = '"' + str(data.pop('revision')) + '"'
+-        fields = {'ETag': etag, 'Cache-Control': 'private, max-age=0'}
++        fields = {'Cache-Control': 'private, max-age=0'}
+         if len(parts) == 3 and parts[2] == 'owner':
+             return 200, {}, {'id': data['owner']}
+         if len(parts) == 3 and parts[2] == 'completion':

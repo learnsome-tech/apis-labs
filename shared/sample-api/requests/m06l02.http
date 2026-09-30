@@ -1,0 +1,19 @@
+### the unit of liveness
+# expect 200
+GET {{base}}/health
+
+### the integration path: create
+# expect 201
+# capture made = json id
+POST {{base}}/tasks
+Content-Type: application/json
+
+{"title": "Integration test subject"}
+
+### read it back
+# expect 200
+GET {{base}}/tasks/{{made}}
+
+### and clean up after the test
+# expect 204
+DELETE {{base}}/tasks/{{made}}

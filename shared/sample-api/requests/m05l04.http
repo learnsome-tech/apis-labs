@@ -1,0 +1,21 @@
+### a token for an ordinary subject
+# expect 200
+# capture user = json access_token
+POST {{base}}/token
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### attributes match: your own records
+# expect 200
+GET {{base}}/policy?owner=alice
+Authorization: Bearer {{user}}
+
+### attributes do not match: somebody else's
+# expect 403
+GET {{base}}/policy?owner=bob
+Authorization: Bearer {{user}}
+
+### a role that is allowed everywhere
+# expect 200
+# capture admin = json access_token
+POST {{base}}/token?role=admin
+Authorization: Basic YWxpY2U6ZGVtbw==

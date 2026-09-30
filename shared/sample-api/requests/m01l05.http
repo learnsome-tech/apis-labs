@@ -1,0 +1,19 @@
+### credentials in, cookie out
+# expect 201
+POST {{base}}/session
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### the cookie is the session
+# expect 200
+GET {{base}}/session
+Cookie: session=local-demo
+
+### without it there is no session
+# expect 401
+GET {{base}}/session
+
+### the browser asks before it posts
+# expect 204
+OPTIONS {{base}}/tasks
+Origin: https://course.example
+Access-Control-Request-Method: POST

@@ -1,0 +1,11 @@
+### the counters before
+# expect 200
+GET {{base}}/metrics
+
+### something goes wrong
+# expect 500
+GET {{base}}/boom
+
+### the counters after
+# expect 200
+GET {{base}}/metrics

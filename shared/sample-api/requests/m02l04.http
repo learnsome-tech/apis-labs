@@ -1,0 +1,19 @@
+### completion as a resource, not a verb
+# expect 204
+PUT {{base}}/tasks/3/completion
+
+### the state moved
+# expect 200
+GET {{base}}/tasks/3
+
+### long work becomes a job resource
+# expect 202
+# capture job = json id
+POST {{base}}/jobs
+Content-Type: application/json
+
+{}
+
+### and the job is polled where the response said
+# expect 200
+GET {{base}}/jobs/{{job}}

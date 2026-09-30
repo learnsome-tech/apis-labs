@@ -1,0 +1,208 @@
+# The source of truth for this API.
+#
+# The server reads this file at start up, the contract suite reads it to decide
+# what to assert, and the lessons read lines out of it on screen. When the
+# specification and the implementation disagree, the contract suite fails.
+openapi: 3.1.0
+info:
+  title: Course Tasks API
+  version: 1.2.0
+  description: A small task service used by every lesson in this course.
+servers:
+  - url: http://127.0.0.1:8765
+    description: Loopback only. Seeded from seeds.json on every start.
+paths:
+  /health:
+    get:
+      operationId: health
+      summary: Liveness probe
+      responses:
+        '200':
+          description: The service is up
+  /tasks:
+    get:
+      operationId: listTasks
+      summary: A page of tasks, newest identifier last
+      parameters:
+        - name: limit
+          in: query
+          description: How many tasks to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 3
+            default: 2
+        - name: after
+          in: query
+          description: Cursor; the identifier the previous page ended on
+          schema:
+            type: integer
+            minimum: 0
+        - name: state
+          in: query
+          schema:
+            type: string
+            enum:
+              - open
+              - done
+        - name: owner
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Substring match on the title
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum:
+              - id
+              - title
+              - '-title'
+            default: id
+        - name: fields
+          in: query
+          description: Comma separated subset of id, title and state
+          schema:
+            type: string
+        - name: include
+          in: query
+          description: Set to owner to embed the owner name
+          schema:
+            type: string
+            enum:
+              - owner
+      responses:
+        '200':
+          description: A page of tasks
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+            Vary:
+              schema:
+                type: string
+        '400':
+          description: A parameter is outside its range
+        '406':
+          description: No representation matches the Accept header
+    post:
+      operationId: createTask
+      summary: Create one task
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          description: Replay key; the same key returns the first response
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Created, with a Location header
+          headers:
+            Location:
+              schema:
+                type: string
+        '409':
+          description: The idempotency key was reused for a different body
+        '415':
+          description: The media type is not application/json
+        '422':
+          description: The body did not satisfy the schema
+  /tasks/{id}:
+    get:
+      operationId: getTask
+      summary: One task, with a validator
+      responses:
+        '200':
+          description: The task
+          headers:
+            ETag:
+              schema:
+                type: string
+        '304':
+          description: The validator still matches
+        '404':
+          description: No task has that identifier
+    patch:
+      operationId: patchTask
+      summary: Change the title, if the validator still matches
+      responses:
+        '204':
+          description: Changed
+        '412':
+          description: The If-Match validator is missing or stale
+        '422':
+          description: The body did not satisfy the schema
+        '404':
+          description: No task has that identifier
+    delete:
+      operationId: deleteTask
+      summary: Remove one task
+      responses:
+        '204':
+          description: Gone
+        '404':
+          description: No task has that identifier
+  /tasks/{id}/completion:
+    put:
+      operationId: completeTask
+      summary: The state change that is not a create, read, update or delete
+      responses:
+        '204':
+          description: The task is done
+        '404':
+          description: No task has that identifier
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - state
+        - owner
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          minLength: 1
+          maxLength: 80
+        state:
+          type: string
+          enum:
+            - open
+            - done
+        owner:
+          type: string
+    TaskPage:
+      type: object
+      required:
+        - items
+        - next
+      properties:
+        items:
+          type: array
+        next:
+          type: string
+    Problem:
+      description: RFC 9457, which obsoleted RFC 7807 in July 2023
+      type: object
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string

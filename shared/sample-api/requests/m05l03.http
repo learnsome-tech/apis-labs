@@ -1,0 +1,15 @@
+### the token endpoint, as a client with credentials
+# expect 200
+# capture token = json access_token
+POST {{base}}/token?scope=tasks:read
+Authorization: Basic YWxpY2U6ZGVtbw==
+
+### the access token carries the subject
+# expect 200
+GET {{base}}/private
+Authorization: Bearer {{token}}
+
+### read scope is not write scope
+# expect 403
+GET {{base}}/scope
+Authorization: Bearer {{token}}

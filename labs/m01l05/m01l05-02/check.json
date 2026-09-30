@@ -4,10 +4,272 @@
   "title": "Credentials in, cookie out",
   "mode": "run",
   "runner": "recorded",
-  "command": "curl -si -u alice:demo -X POST localhost:8765/session; curl -si -b session=local-demo localhost:8765/session",
+  "command": "python3 server.py --port 8765 & curl -si -u alice:demo -X POST localhost:8765/session; curl -si -b session=local-demo localhost:8765/session",
   "main": "run.sh",
   "files": [
     "run.sh"
+  ],
+  "shared": [
+    {
+      "path": "app.py",
+      "from": "shared/sample-api/app.py"
+    },
+    {
+      "path": "breakages/01-missing-404/README.md",
+      "from": "shared/sample-api/breakages/01-missing-404/README.md"
+    },
+    {
+      "path": "breakages/01-missing-404/break.patch",
+      "from": "shared/sample-api/breakages/01-missing-404/break.patch"
+    },
+    {
+      "path": "breakages/02-pagination-drift/README.md",
+      "from": "shared/sample-api/breakages/02-pagination-drift/README.md"
+    },
+    {
+      "path": "breakages/02-pagination-drift/break.patch",
+      "from": "shared/sample-api/breakages/02-pagination-drift/break.patch"
+    },
+    {
+      "path": "breakages/03-non-idempotent-retry/README.md",
+      "from": "shared/sample-api/breakages/03-non-idempotent-retry/README.md"
+    },
+    {
+      "path": "breakages/03-non-idempotent-retry/break.patch",
+      "from": "shared/sample-api/breakages/03-non-idempotent-retry/break.patch"
+    },
+    {
+      "path": "breakages/04-missing-etag/README.md",
+      "from": "shared/sample-api/breakages/04-missing-etag/README.md"
+    },
+    {
+      "path": "breakages/04-missing-etag/break.patch",
+      "from": "shared/sample-api/breakages/04-missing-etag/break.patch"
+    },
+    {
+      "path": "breakages/05-leaky-500/README.md",
+      "from": "shared/sample-api/breakages/05-leaky-500/README.md"
+    },
+    {
+      "path": "breakages/05-leaky-500/break.patch",
+      "from": "shared/sample-api/breakages/05-leaky-500/break.patch"
+    },
+    {
+      "path": "breakages/06-n-plus-one/README.md",
+      "from": "shared/sample-api/breakages/06-n-plus-one/README.md"
+    },
+    {
+      "path": "breakages/06-n-plus-one/break.patch",
+      "from": "shared/sample-api/breakages/06-n-plus-one/break.patch"
+    },
+    {
+      "path": "breakages/07-unbounded-list/README.md",
+      "from": "shared/sample-api/breakages/07-unbounded-list/README.md"
+    },
+    {
+      "path": "breakages/07-unbounded-list/break.patch",
+      "from": "shared/sample-api/breakages/07-unbounded-list/break.patch"
+    },
+    {
+      "path": "breakages/08-unverified-jwt/README.md",
+      "from": "shared/sample-api/breakages/08-unverified-jwt/README.md"
+    },
+    {
+      "path": "breakages/08-unverified-jwt/break.patch",
+      "from": "shared/sample-api/breakages/08-unverified-jwt/break.patch"
+    },
+    {
+      "path": "breakages/README.md",
+      "from": "shared/sample-api/breakages/README.md"
+    },
+    {
+      "path": "contract_test.py",
+      "from": "shared/sample-api/contract_test.py"
+    },
+    {
+      "path": "miniyaml.py",
+      "from": "shared/sample-api/miniyaml.py"
+    },
+    {
+      "path": "openapi.yaml",
+      "from": "shared/sample-api/openapi.yaml"
+    },
+    {
+      "path": "requests/m01l01.http",
+      "from": "shared/sample-api/requests/m01l01.http"
+    },
+    {
+      "path": "requests/m01l02.http",
+      "from": "shared/sample-api/requests/m01l02.http"
+    },
+    {
+      "path": "requests/m01l03.http",
+      "from": "shared/sample-api/requests/m01l03.http"
+    },
+    {
+      "path": "requests/m01l04.http",
+      "from": "shared/sample-api/requests/m01l04.http"
+    },
+    {
+      "path": "requests/m01l05.http",
+      "from": "shared/sample-api/requests/m01l05.http"
+    },
+    {
+      "path": "requests/m02l01.http",
+      "from": "shared/sample-api/requests/m02l01.http"
+    },
+    {
+      "path": "requests/m02l02.http",
+      "from": "shared/sample-api/requests/m02l02.http"
+    },
+    {
+      "path": "requests/m02l03.http",
+      "from": "shared/sample-api/requests/m02l03.http"
+    },
+    {
+      "path": "requests/m02l04.http",
+      "from": "shared/sample-api/requests/m02l04.http"
+    },
+    {
+      "path": "requests/m02l05.http",
+      "from": "shared/sample-api/requests/m02l05.http"
+    },
+    {
+      "path": "requests/m03l01.http",
+      "from": "shared/sample-api/requests/m03l01.http"
+    },
+    {
+      "path": "requests/m03l02.http",
+      "from": "shared/sample-api/requests/m03l02.http"
+    },
+    {
+      "path": "requests/m03l03.http",
+      "from": "shared/sample-api/requests/m03l03.http"
+    },
+    {
+      "path": "requests/m03l04.http",
+      "from": "shared/sample-api/requests/m03l04.http"
+    },
+    {
+      "path": "requests/m03l05.http",
+      "from": "shared/sample-api/requests/m03l05.http"
+    },
+    {
+      "path": "requests/m04l01.http",
+      "from": "shared/sample-api/requests/m04l01.http"
+    },
+    {
+      "path": "requests/m04l02.http",
+      "from": "shared/sample-api/requests/m04l02.http"
+    },
+    {
+      "path": "requests/m04l03.http",
+      "from": "shared/sample-api/requests/m04l03.http"
+    },
+    {
+      "path": "requests/m04l04.http",
+      "from": "shared/sample-api/requests/m04l04.http"
+    },
+    {
+      "path": "requests/m04l05.http",
+      "from": "shared/sample-api/requests/m04l05.http"
+    },
+    {
+      "path": "requests/m05l01.http",
+      "from": "shared/sample-api/requests/m05l01.http"
+    },
+    {
+      "path": "requests/m05l02.http",
+      "from": "shared/sample-api/requests/m05l02.http"
+    },
+    {
+      "path": "requests/m05l03.http",
+      "from": "shared/sample-api/requests/m05l03.http"
+    },
+    {
+      "path": "requests/m05l04.http",
+      "from": "shared/sample-api/requests/m05l04.http"
+    },
+    {
+      "path": "requests/m05l05.http",
+      "from": "shared/sample-api/requests/m05l05.http"
+    },
+    {
+      "path": "requests/m06l01.http",
+      "from": "shared/sample-api/requests/m06l01.http"
+    },
+    {
+      "path": "requests/m06l02.http",
+      "from": "shared/sample-api/requests/m06l02.http"
+    },
+    {
+      "path": "requests/m06l03.http",
+      "from": "shared/sample-api/requests/m06l03.http"
+    },
+    {
+      "path": "requests/m06l04.http",
+      "from": "shared/sample-api/requests/m06l04.http"
+    },
+    {
+      "path": "requests/m06l05.http",
+      "from": "shared/sample-api/requests/m06l05.http"
+    },
+    {
+      "path": "requests/m07l01.http",
+      "from": "shared/sample-api/requests/m07l01.http"
+    },
+    {
+      "path": "requests/m07l02.http",
+      "from": "shared/sample-api/requests/m07l02.http"
+    },
+    {
+      "path": "requests/m07l03.http",
+      "from": "shared/sample-api/requests/m07l03.http"
+    },
+    {
+      "path": "requests/m07l04.http",
+      "from": "shared/sample-api/requests/m07l04.http"
+    },
+    {
+      "path": "requests/m07l05.http",
+      "from": "shared/sample-api/requests/m07l05.http"
+    },
+    {
+      "path": "requests/m08l01.http",
+      "from": "shared/sample-api/requests/m08l01.http"
+    },
+    {
+      "path": "requests/m08l02.http",
+      "from": "shared/sample-api/requests/m08l02.http"
+    },
+    {
+      "path": "requests/m08l03.http",
+      "from": "shared/sample-api/requests/m08l03.http"
+    },
+    {
+      "path": "requests/m08l04.http",
+      "from": "shared/sample-api/requests/m08l04.http"
+    },
+    {
+      "path": "requests/m08l05.http",
+      "from": "shared/sample-api/requests/m08l05.http"
+    },
+    {
+      "path": "seeds.json",
+      "from": "shared/sample-api/seeds.json"
+    },
+    {
+      "path": "server.py",
+      "from": "shared/sample-api/server.py"
+    },
+    {
+      "path": "tools/http_run.py",
+      "from": "shared/sample-api/tools/http_run.py"
+    },
+    {
+      "path": "tools/make_breakages.py",
+      "from": "shared/sample-api/tools/make_breakages.py"
+    }
   ],
   "stdin": null,
   "expected": null,

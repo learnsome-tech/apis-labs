@@ -1,0 +1,11 @@
+### REST: many resources, one uniform interface
+# expect 200
+GET {{base}}/tasks?limit=2
+
+### the schema that makes a typed client possible
+# expect 200
+GET {{base}}/openapi.json
+
+### a stream, where a query language would not help
+# expect 200
+GET {{base}}/export

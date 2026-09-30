@@ -1,0 +1,13 @@
+--- a/app.py
++++ b/app.py
+@@ -126,8 +126,8 @@
+                 status, fields, data = self.dispatch(method, target, lower, body)
+             except (ValueError, TypeError, KeyError):
+                 status, fields, data = self.problem(400, 'Invalid request')
+-            except Exception:
+-                status, fields, data = self.problem(500, 'Request failed')
++            except Exception as error:
++                status, fields, data = self.problem(500, str(error))
+             if status not in (101, 204, 304):
+                 fields = {'Content-Type': 'application/json', **fields}
+             # Method and status only: no query strings, no bodies, no tokens.
