@@ -87,6 +87,12 @@ def which(tool):
     return shutil.which(tool, path=SEARCH_PATH)
 
 
+def stored_name(rel):
+    """Where a starter file is kept: a `.git` directory inside a lab is kept as `dot-git` (a repository cannot
+    hold one), and put back under its real name when the lab runs."""
+    return '/'.join('dot-git' if s == '.git' else s for s in rel.split('/'))
+
+
 def missing_tools(lab):
     missing = [t for t in lab.get('requires', []) if not which(t)]
     for name in lab.get('toolchain') or []:
@@ -421,7 +427,7 @@ def execute(lab, command=None):
     os.mkdir(home)
     os.mkdir(tmp)
     try:
-        copies = [(os.path.join(lab['dir'], 'starter', n), n) for n in lab['files']]
+        copies = [(os.path.join(lab['dir'], 'starter', stored_name(n)), n) for n in lab['files']]
         copies += [(os.path.join(ROOT, s['from']), s['path']) for s in lab.get('shared', [])]
         for src, name in copies:
             target = os.path.join(home, name)
@@ -631,11 +637,11 @@ def lint_structure(problems):
         if lab.get('main') not in files:
             problems.append(f"{where}/check.json: main file {lab.get('main')} is not listed")
         for name in sorted(files):
-            if not os.path.isfile(os.path.join(d, 'starter', name)):
+            if not os.path.isfile(os.path.join(d, 'starter', stored_name(name))):
                 problems.append(f'{where}/starter/{name}: missing')
         starter = os.path.join(d, 'starter')
         for name in sorted(list_files(starter) if os.path.isdir(starter) else []):
-            if name not in files:
+            if name not in {stored_name(f) for f in files}:
                 problems.append(f'{where}/starter/{name}: not listed in check.json')
         if lab.get('stdin') and lab['stdin'] not in files:
             problems.append(f"{where}/check.json: stdin file {lab['stdin']} is not a starter file")
@@ -675,7 +681,7 @@ def lint_syntax(problems, missing):
                 for name in lab['files']:
                     target = os.path.join(home, name)
                     os.makedirs(os.path.dirname(target), exist_ok=True)
-                    shutil.copyfile(os.path.join(lab['dir'], 'starter', name), target)
+                    shutil.copyfile(os.path.join(lab['dir'], 'starter', stored_name(name)), target)
                 ok, out = build_csharp(home, {**os.environ, 'PATH': SEARCH_PATH, **DOTNET_ENV,
                                               'DOTNET_CLI_HOME': base, 'NUGET_PACKAGES': os.path.join(base, 'nuget')})
             finally:
